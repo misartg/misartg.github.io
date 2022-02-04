@@ -5,7 +5,7 @@ permalink: /about/
 author: John Moeller
 ---
 
-This is the GitHub Pages home for the University of Arizona MIS Department's Academic and Research Technologies Group (ARTG). We may use this area for technical documentation or knowledge sharing that is more general in nautre. 
+This is the GitHub Pages home for the University of Arizona MIS Department's Academic and Research Technologies Group (ARTG). We may use this area for technical documentation or knowledge sharing that is general in nautre. 
 
 Our group strives to deliver technical academic and research support for our programs and courses. This is is not only for endeavors within the Management Information Systems department, but throughout the Eller College of Management and to other student populations at the University of Arizona.
 
