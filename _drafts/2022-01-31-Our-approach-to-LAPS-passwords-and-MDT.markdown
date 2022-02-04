@@ -20,7 +20,7 @@ There's several popular strategies for dealing with this:
 2. In MDT's Task Sequences, move the `Recover From Domain` task, where domain join occurs, to near the end of the sequence.
 
 I don't like these for several reasons:
-1. For staging OUs, it can be a bit of bear to re-link policies from above in hierarchy, as this has to be done manually as new policies are created or linked. It can also be a bit of a chore to come back to the staging OU after deployment and move computer objects back to where they should reside in your OU structure; this is especially true in a rebuild scenario where the computer is already where it should be. We also have several long-running deployments and it's easy to forget to move the computer out of staging after its done building. 
+1. For staging OUs, it can be a bit of bear to re-link policies from above in hierarchy and keep that maintained over time, as new policies are created or linked. It can also be a bit of a chore to come back to the staging OU after deployment and move computer objects back to where they should permanently reside in your OU structure; this is especially true in a rebuild scenario where the computer is already where it should be. We also have several long-running deployments and it's easy to forget to move the computer out of staging after its done building. 
 2. Moving the `Recover From Domain` task is simple and effective, but if you have many Task Sequences you have to visit each one to change this setting, and you have to remember to move it on newly-created Task Sequences[^fn-mdt-template]. And while it's less than ideal to couple in-sequence actions to settings you get from being domain joined, your deployments may rely on such settings. We take advantage of being domain-joined to register and license certain software based on registry information set from GPPs, and also on the domain's settings for MS licensing and activation.
 
 [^fn-mdt-template]: You can mitigate this somewhat by [creating and using Task Sequence Templates in MDT](https://www.danielengberg.com/how-to-create-an-mdt-task-sequence-template/), where the `Recover From Domain` task is in the correct place. But, of course, you'd have to recreate or alter your existing templates to move them, along with any pre-existing task sequence. But I **highly recommend** using templates in general so you can reuse complex MDT folders and tasks across deployment scenarios.  
@@ -37,12 +37,12 @@ Our method also works for any system where the the "Default"/autologon entries i
 
 If you'd like to replicate our approach and are familiar with the problem and AD/GPOs/ILT/LAPS/MDT, you can follow these steps **first in a test environment or test OU/security-filtered group** before trying it out and re-creating/re-linking more broadly. 
 
-We'll have a step-by-step guide below if you'd like more context, links to resources, some screenshots and some snippets that you may be able to copy/paste into your environment. 
+We'll have a step-by-step guide below if you'd like more context, links to resources, some screenshots and some snippets that you may be able to copy/paste into your environment. If you're new to LAPS or Group Policy Preference's Item-level targeting feature, you may wish to follow the longer guide. 
 
 * Load the LAPS ADMX(es) into your AD if you haven't already.
 * Build an installer for deploying LAPS to clients. You might do this in MDT, your configuration management system, or in a GPO for `Software Settings` -> `Assigned Applications`. It's an MSI-based installer, so it is relatively simple to deploy.
 * Create a new GPO for your LAPS settings (password construction details, minimum & maximum age, etc), but **do not** define the `Enable local admin password management` setting.
-* Create another new GPO for dynamic LAPS enablement, and in it:
+* Create another new GPO for dynamic LAPS enablement and either [copy/paste my XML output below](xml-export-of-my-dynamic-laps-enablement-registry-items), or make these settings yourself:
   * Create a new **Registry Item** to **Update** `HKLM\SOFTWARE\Policies\Microsoft Services\AdmPwd\AdmPwdEnabled` to a `REG_DWORD` value of **`1`**. 
     * In this registry item, visit the **Common** tab, click the checkbox to Enable `Item-level targeting` and enter the `Targeting...` menu. 
       * Create a new **Registry Match** ILT item:
@@ -101,7 +101,7 @@ LAPS' .admx files get loaded into your domain the same way that others do. If yo
 
 #### Build an installer for deploying LAPS to clients ####
 
-I am making the assumption that if you're interested in our guide that you probably already a preferred method for deploying software to computers under your management. And if so, you don't need to know much about deploying the LAPS client onto your endpoints other than it includes an .MSI installer files for 64-bit and 32-bit machines and they work as expected. You may have already built an installer on your MDT system that you can use.
+I am making the assumption that if you're interested in our guide that you probably already a preferred method for deploying software to computers under your management. And if so, you don't need to know much about deploying the LAPS client onto your endpoints other than it includes an .MSI installer files for 64-bit and 32-bit machines and they can be configured to install silently as expected. You could easily create a silent installer to be deployed by MDT if you like. 
 
 You can deploy the LAPS client to your endpoints and it will remain dormant until you define LAPS policies in later steps, and you'll definitely need it to be able to use LAPS, so you'll want to get that squared away now. 
 
@@ -109,7 +109,7 @@ If you don't have a go-to method for deploying LAPS, or would like it perhaps mo
 
 [^fn-32bit]: You may only need to support the 64-bit installation method if you don't have any 32-bit clients anymore. 
 
-#### Create a new GPO for your LAPS settings ####
+#### Create a new Group Policy Object (GPO) for your LAPS settings ####
 
 Our method will have us making two GPOs where someone would ordinarily create one; one policy to manage the settings for LAPS, and a later policy dynamically disable LAPS while MDT is building, and enable it otherwise.
 
@@ -118,11 +118,15 @@ I *highly suggest* creating your new policy in a test OU or test environment of 
 You'll need to decide what LAPS settings make sense for your situation, but here's an example of ours:
 ![Image that shows partial LAPS settings in an Active Directory environment](/assets/images/misartg-LAPS-settings.png)
 
-If you're using LAPS in earnest, you certainly want to **Enable** the `Do not allow password expiration time longer than required by policy` policy. This ensures that an outside influence cannot extend the LAPS password deadline, which can circumvent the control.
+* If you're using LAPS in earnest, you certainly want to **Enable** the `Do not allow password expiration time longer than required by policy` policy. This ensures that an outside influence cannot extend the LAPS password deadline to circumvent the control.
 
-You will also want a short expiration time, defined in `Password Age (Days)`. I think that setting it to the minimum of **1 day** makes most sense. 
+* You will also want a short expiration time, defined in `Password Age (Days)`. I think that setting it to the minimum, **1 day**, makes most sense[^fn-passwordagedisclaimer]. 
 
-Your organization may have guidance or requirements you need to follow with the `Password Complexity` settings.
+[^fn-passwordagedisclaimer]: Because LAPS password changes are managed by the Group Policy refresh/update (ie, `gpupdate`) process, you can expect a bit of drift from your intended password age. The [background refresh of Group Policy occurs every 90 minutes by default, and may tack on another 0-30 minutes at random on top of that](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/policy/background-refresh-of-group-policy). On each run, group policy update will patrol for an expired LAPS password, changing it if its expired. So the effective age is more like your `Password Age (Days)` value plus some number of minutes up to 120. 
+
+* Your organization may have guidance or requirements you need to follow in the `Password Complexity` settings.
+
+* If your environment uses a different account for local administrator, you can define it in `Name of administrator account to manage`. But if you use the default account **Administrator**, then don't define that setting and LAPS will handle it for you. 
 
 ***Important***: **Do not** define the `Enable local admin password management` setting in this policy; we'll do it in another one.
 
@@ -130,9 +134,129 @@ Your organization may have guidance or requirements you need to follow with the 
 
 #### Create another GPO, for dynamic LAPS enablement ####
 
-Now, it's time for the interesting part. 
+Finally, it's time for the interesting part. Remember that our overall goal is to disallow LAPS to take effect while a computer is being built by MDT, and to allow it otherwise. We're going to manage this with information on the state of the computer from the registry, and apply LAPS settings directly in the registry instead of through the ADMX, taking advantage of the Item-level Targeting feature of Group Policy Preferences.[^fn-gpphistory]
 
-You want to create a new policy
+[^fn-gpphistory]: Some of us more seasoned types can still recall that before it was Group Policy Preferences, it was PolicyMaker from Desktop Standard. It struck me while writing this article that it's been over 15 years since Microsoft acquired Desktop Standard and PolicyMaker's functionality is still relegated to a separate top-level folder in the GPMC editor window, and not integrated more broadly. But I should probably just be happy that it's there at all as it continues to be a powerful tool that we rely on for all sorts of advanced configuration that would otherwise be hidden away in scripts and configuration management platforms. 
+
+To do this, we need to gather some information.
+
+First, you need to know the username of the account that MDT uses for local admin during deployments. The overwhelming majority of the time, this is the default, built-in **Administrator** account, but if you've changed it somehow, you'd need to know its username. But I'll be writing the rest of the guidance assuming it is **Administrator**. 
+
+Second, we need to know the actual registry setting that the LAPS Administrative Template setting modifies to enable or disable LAPS. Luckily, [the fantastic admx.help has a page that can tell us what it is](https://admx.help/?Category=LAPS&Policy=FullArmor.Policies.C9E1D975_EA58_48C3_958E_3BC214D89A2E::POL_AdmPwd_Enabled).
+
+![Image that shows the registry setting for enabling/disabling LAPS, which is HKLM\	Software\Policies\Microsoft Services\AdmPwd\AdmPwdEnabled, using a value of 1 for enabled](/assets/images/misartg-LAPS-admxhelp-enable-LAPS-reg.png)
+
+The registry setting to enable or disable LAPS is a DWORD value of `AdmPwdEnabled` at `HKEY_LOCAL_MACHINE\Software\Policies\Microsoft Services\AdmPwd`, Data being a `1` for enabled or `0` for disabled. 
+
+We should have what we need now. 
+
+You want to create a new GPO for dynamic LAPS enablement. Just as before, you should be doing this initially in a test area of some kind. 
+
+*Feeling lazy? If you skim and understand these upcoming steps to create and configure the registry items, but would like to skip all the clicking, [I've included my policy's output below and you should be able to simply copy and paste it into your own policy](#xml-export-of-my-dynamic-laps-enablement-registry-items)[^fn-gppcopypaste]*
+
+[^fn-gppcopypaste]: Group Policy Preferences supports XML-based copy/paste of most or all of its configuration items, and also of its Item-level targeting targets as well. I suggest you use this feature as much as possible, especially if you developing big policies with minor changes between each item, or you want to apply ILTs across several policies easily. It can really cut down on errors and tedium. It also generally supports right-click enabling or disabling of individual configuration items, which can help you out during testing and troubleshooting, and isn't as heavy-handed as having to enable or disable the entire policy. 
+
+In the GPMC editor's windows of our policy, expand the left-hand page to `Computer Configuration` -> `Preferences` -> `Windows Settings` -> `Registry`. Right-click on `Registry` and click on  `New` -> `Registry Item`. Fill out the New Registry Properties as follows:
+
+* Action: **`Update`**
+* Hive: **`HKEY_LOCAL_MACHINE`**
+* Key path: **SOFTWARE\Policies\Microsoft Services\AdmPwd**
+* Value name: **AdmPwdEnabled** (don't click on the "Default" checkbox)
+* Value type: `REG_DWORD`
+* Value data: **1** (hex or decimal doesn't matter)
+
+![Image that shows the new registry item's properties filled out as just instructed](/assets/images/misartg-LAPS-first-reg-entry-settings.png)
+
+This creates the registry settings necessary to enable LAPS. 
+
+Click on the `Common` tab to get to special GPP settings. **Click** the checkbox to enable `Item-level targeting` then **click** the `Targeting...` button to enter that menu.
+
+![Image that shows the where to click to enable and configure Item-level targeting in the Common tab](/assets/images/misartg-enable-then-configure-targeting.png)
+
+In the ILT `Targeting Editor` menu, click on `New Item` then `Registry Match` to create a registry match targeting item. 
+
+![Image that shows the where to click to create a new registry match ILT targeting item](/assets/images/misartg-ILT-menu-new-regmatch.png)
+
+Then configure your newly-created item as follows:
+
+* `Match type`: Match value data
+* `Value data match type`: Any
+* `HIVE`: HKEY_LOCAL_MACHINE
+* `Key Path`: **SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon**
+* `Value name`: **AutoAdminLogon**
+* `Value type`: Any
+* `Value data`: **1**
+
+![Image that shows where to input the initial config for the first registry match ILT item](/assets/images/misartg-first-regmatch-item-initial-config.png)
+
+What you've just done is create a check that will require the autologon setting `HKLM\SOFTWARE\Microsoft\Windows NT\Current Version\Winlogon\AutoAdminLogon` to be **1** for your policy to apply. **But this is the opposite of what we want**. Right-click your recently created item and choose `Item Options` -> **`Is not`** to reverse the sense of the check. 
+
+![Image that shows where to click to reverse the sense of the ILT check with the Is Not selection](/assets/images/misartg-first-regmatch-reverse-sense.png)
+
+After you change to the **Is Not** sense, you also get some bonus logic like the registry value not existing in the first place, in addition to the values not matching. 
+
+![Image that shows our negated ILT item check](/assets/images/misartg-first-reg-match-now-reversed.png)
+
+We want to create a second check, to verify that the autologon process is using the username of the MDT user. 
+
+Click on `New Item` -> `Registry Match` and fill it out thusly:
+* `Match type`: Match value data
+* `Value data match type`: Any
+* `HIVE`: HKEY_LOCAL_MACHINE
+* `Key Path`: **SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon**
+* `Value name`: **DefaultUserName**
+* `Value type`: Any
+* `Value data`: ***username of the local administrator account that MDT uses***. It's probably **Administrator**
+
+Then right-click the item you just created and again choose `Item Options` -> **`Is Not`** and ensure that `Item Option` -> **`And`** is selected. 
+
+![Image that shows both our ILT items for the LAPS enablement policy](/assets/images/misartg-both-regmatch-items.png)
+
+Click `OK` on the two windows to complete the configuration. 
+
+You've now configured the base case/default policy, to enable LAPS if MDT (or some other software, potentially) is not configured to automatically log in to the computer with the Administrator user. 
+
+We'll now create a second registry item to do the opposite: disable LAPS if the Administrator account is configured to autologon. 
+
+Click on  `New` -> `Registry Item`. Fill out the New Registry Properties as follows:
+
+* Action: **`Update`**
+* Hive: **`HKEY_LOCAL_MACHINE`**
+* Key path: **SOFTWARE\Policies\Microsoft Services\AdmPwd**
+* Value name: **AdmPwdEnabled** (don't click on the "Default" checkbox)
+* Value type: `REG_DWORD`
+* Value data: **1** (hex or decimal doesn't matter)
+
+*Note: If you're comfortable with it, you can copy/paste your previous registry item and change the values to match and reverse the senses of the ILT checks, since that's pretty much all we're doing. If not, follow these steps below manually and you can double check against my screenshots.* 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### XML export of my dynamic LAPS enablement registry items ###
+If you'd like to try pasting my configuration of the above 2 registry settings for dynamic LAPS enablement, complete with ILT configuration, my output is here:
+```xml
+<?xml version="1.0"?>
+<RegistrySettings clsid="{A3CCFC41-DFDB-43a5-8D26-0FE8B954DA51}"><Registry clsid="{9CD4B2F4-923D-47f5-A062-E897DD1DAD50}" name="AdmPwdEnabled" status="AdmPwdEnabled" image="12" changed="2021-09-09 01:12:03" uid="{6A946938-B97B-4E84-928D-E114C3EF2D5D}" bypassErrors="1"><Properties action="U" displayDecimal="1" default="0" hive="HKEY_LOCAL_MACHINE" key="SOFTWARE\Policies\Microsoft Services\AdmPwd" name="AdmPwdEnabled" type="REG_DWORD" value="00000001"/><Filters><FilterRegistry bool="AND" not="1" type="MATCHVALUE" hive="HKEY_LOCAL_MACHINE" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" valueName="AutoAdminLogon" valueType="" valueData="1" min="0.0.0.0" max="0.0.0.0" gte="1" lte="0"/><FilterRegistry bool="AND" not="1" type="MATCHVALUE" hive="HKEY_LOCAL_MACHINE" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" valueName="DefaultUserName" valueType="" valueData="Administrator" min="0.0.0.0" max="0.0.0.0" gte="1" lte="0"/></Filters></Registry>
+	<Registry clsid="{9CD4B2F4-923D-47f5-A062-E897DD1DAD50}" name="AdmPwdEnabled" status="AdmPwdEnabled" image="12" changed="2021-09-09 01:12:36" uid="{3D9C6266-F281-4539-B658-EBE9E62562FB}" bypassErrors="1"><Properties action="U" displayDecimal="1" default="0" hive="HKEY_LOCAL_MACHINE" key="SOFTWARE\Policies\Microsoft Services\AdmPwd" name="AdmPwdEnabled" type="REG_DWORD" value="00000000"/><Filters><FilterRegistry bool="AND" not="0" type="MATCHVALUE" hive="HKEY_LOCAL_MACHINE" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" valueName="AutoAdminLogon" valueType="" valueData="1" min="0.0.0.0" max="0.0.0.0" gte="1" lte="0"/><FilterRegistry bool="AND" not="0" type="MATCHVALUE" hive="HKEY_LOCAL_MACHINE" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" valueName="DefaultUserName" valueType="" valueData="Administrator" min="0.0.0.0" max="0.0.0.0" gte="1" lte="0"/></Filters></Registry>
+</RegistrySettings>
+```
+
+You'd copy this XML, then right-click on your GPO's `Computer Configuration` -> `Preferences` -> `Windows Settings` -> `Registry` option in the left-hand pane of the Group Policy Management Editor, then click **Paste**[^fn-gppcopypaste]. 
+
+![Image that shows where to paste my copied GPO settings](/assets/images/misartg-LAPS-where-to-paste.png)
+
 
 
 
