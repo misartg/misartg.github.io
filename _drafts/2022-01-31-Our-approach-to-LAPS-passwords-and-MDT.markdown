@@ -29,20 +29,22 @@ Luckily, there is a better way.
 
 ## Our approach ##
 
-**Our approach makes use of the [Item-level targeting (ILT) feature of Group Policy Preferences](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)) to dynamically assess whether or not a machine is still deploying, and if it is, LAPS will not be enabled. Once the machine has completed its deployment, this check will fail, LAPS will become enabled and potentially be in effect.**
+**Our approach makes use of the [Item-level targeting (ILT) feature of Group Policy Preferences (GPP)](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)) to dynamically assess whether or not a machine is still deploying, and if it is, LAPS will not be enabled. Once the machine has completed its deployment, this check will fail, LAPS will become enabled and potentially be in effect.**
 
-Our method also works for any system where the the "Default"/autologon entries in the registry are defined, so it's more general than just MDT, or could be adapted for a different autologon scenario that you might need to account for. The same approach could also be broadened for other purposes where you considered yourself locked in to an ADMX setting, but would like some more dynamic control through ILT's powerful capabilities; you can integrate those targeting features and edit the ADMX's registry entries outside of the ADMX instead. 
+Our method also works for any system where the "Default"/autologon entries in the registry are active for the local admin user, so it's more general than just MDT, or could be easily adapted for a different autologon scenario that you might need to account for, or you could make it dynamic based on just about anything that ILT can target. 
+
+Additionally, our approach could also be broadened to other purposes where you considered yourself locked in to an ADMX setting, but would like some more dynamic control through ILT's powerful capabilities; you could use GPP's Registry items and item-level targeting features to edit the ADMX's registry entries directly, instead of through the ADMX/GPO interface.
 
 ### Quickstart ###
 
-If you'd like to replicate our approach and are familiar with the issue and AD/GPOs/ILT/LAPS/MDT, you can follow these steps **first in a test environment or test OU/security-filtered group** before implementing it by re-creating/re-linking more broadly. 
+If you'd like to replicate our approach and are familiar with the issue and AD/GPOs/ILT/LAPS/MDT, you can follow these steps **in a test environment or test OU/security-filtered group**. If successful, you could  implementing it broadly by re-creating/re-linking the policies as needed. 
 
-We'll have a step-by-step guide below if you'd like more context, links to resources, some screenshots and some snippets that you may be able to copy/paste into your environment. If you're new to LAPS or Group Policy Preference's Item-level targeting feature, you may wish to follow the longer guide. 
+We'll have a detailed step-by-step guide below if you'd like more context, links to resources, some screenshots. If you're new to LAPS or Group Policy Preference's Item-level targeting feature, you may wish to follow the longer guide. You also reference the longer guide if you want more information about a paricular step mentioned here. 
 
 * Load the LAPS ADMX(es) into your AD if you haven't already[^fn-lapsextendschema].
-* Build an installer for deploying LAPS to clients. You might do this in MDT, your configuration management system, or in a GPO for `Software Settings` -> `Assigned Applications`. It's an MSI-based installer, so it is relatively simple to deploy.
-* Create a new GPO for your LAPS settings (password construction details, minimum & maximum age, etc), but **do not** define the `Enable local admin password management` setting.
-* Create another new GPO for dynamic LAPS enablement and either [copy/paste my XML output below](xml-export-of-my-dynamic-laps-enablement-registry-items), or make these settings yourself:
+* Build an installer for deploying LAPS to clients. You might do this in MDT, your configuration management system, or in a GPO for `Software Settings` -> `Assigned Applications`. It's an MSI-based installer, so it is relatively simple to deploy silently.
+* Create a new GPO for your LAPS settings (password construction details, password age, etc), but **do not** define the `Enable local admin password management` setting.
+* Create another new GPO for dynamic LAPS enablement and either [copy/paste my Registry items XML output below](xml-export-of-my-dynamic-laps-enablement-registry-items), or make these settings yourself:
   * Create a new **Registry Item** to **Update** `HKLM\SOFTWARE\Policies\Microsoft Services\AdmPwd\AdmPwdEnabled` to a `REG_DWORD` value of **`1`**. 
     * In this registry item, visit the **Common** tab, click the checkbox to Enable `Item-level targeting` and enter the `Targeting...` menu. 
       * Create a new **Registry Match** ILT item:
@@ -82,16 +84,16 @@ We'll have a step-by-step guide below if you'd like more context, links to resou
         * `Value name`: **DefaultUserName**
         * `Value type`: Any
         * `Value data`: *the username of the local administrator account that MDT uses*. In our case, this is the default, **Administrator** .
-* Order your GPOs so the LAPS settings GPO is applied **before** the second GPO dynamic LAPS enablement.[^fn-precedence] That is, the first GPO made should have a higher precedence number than the second in the `Group Policy Inheritance` tab.
-* Test! Check out your in-band/previously built clients to ensure that LAPS is applying to them, with `regedit` or the `LAPS UI` application. Then try to test out an MDT build and ensure a domain-joined machine is does not have LAPS enabled during MDT's build process. You can retry problematic deployments, or [use MDT's suspend/resume pattern](https://www.toddlamothe.com/deployment/pause-task-sequence-mdt-2010.htm) to help you accomplish this, verifying again with `regedit` or the `LAPS UI` application. You can further verify that a particular computer "flips" to enabled LAPS after it finishes its MDT build successfully.
+* Recommended: Order your GPOs so the LAPS settings GPO is applied **before** the second GPO dynamic LAPS enablement.[^fn-precedence] That is, the first GPO made should have a higher precedence number than the second in the `Group Policy Inheritance` tab.
+* Test! Check out your in-band/previously built clients to ensure that LAPS is applying to them, with `regedit` and/or the `LAPS UI` application. Then try to test out an MDT build and ensure a domain-joined machine is does not have LAPS enabled during MDT's build process. You can retry problematic deployments and see if they work, or [use MDT's suspend/resume pattern](https://www.toddlamothe.com/deployment/pause-task-sequence-mdt-2010.htm) in a Task Sequence to help you accomplish this, verifying again with `regedit` or the `LAPS UI` application. You can further verify that a particular computer "flips" to enabled LAPS after it finishes its MDT build successfully.
 
 [^fn-precedence]: This isn't *technically* necessary with the design we have, but will be helpful later if someone alters your LAPS GPO and unwittingly enables it across the board. The hide you save may be your own! **Precedence** is the order that the GPOs apply in. In the `Linked Group Policy Objects` and `Group Policy Inheritance` columns, **the smallest number is applied last**[^fn-precedence-vs-gpp-order]. Being mindful and intentional with GPO precedence (and inherited precedence) is a good practice anyway, as the order of GPO/GPP application can overwrite a previous setting, and sometimes this is exactly what you want to accomplish something interesting. Manipulating precedence is how the `Enforce` setting works on GPOs as well.
 
-[^fn-precedence-vs-gpp-order]: Yes, it's annoying and confusing that numbers in GPO *precedence* and GPP *order* apply in reverse from one another!
+[^fn-precedence-vs-gpp-order]: Yes, it's annoying and confusing that meaning of the numbers in GPO *precedence* and GPP *order* are reversed from one another!
 
-### Our full step-by-step guide ###
+### Full step-by-step guide ###
 
-We'll expound on some of our decisions in this guide. And this guide might be userful for you if you're new to LAPS, Group Policy Preferences or the Item-level targeting features.
+We'll expound on some of our decisions in this guide. And this guide might be userful for you if you're new to LAPS, Group Policy Preferences or the Item-level targeting features. You may also be interested in some of our footnotes. 
 
 #### Load the LAPS ADMX(es) into your AD if you haven't already. ####
 
@@ -296,7 +298,7 @@ On a client where you'd expect LAPS to be enabled, that is, a client that's not 
   * Or, you can also use PowerShell to query a computer object's LAPS password and expiration time. Assuming the account you're using has permissions to read the attributes[^fn-attributereading], and [you have the `ActiveDirectory` PowerShell module installed](https://4sysops.com/wiki/how-to-install-the-powershell-active-directory-module/), the command `Get-ADComputer -Properties ms-MCS-AdmPwdExpirationTime,ms-MCS-AdmPwd -Identity <computername>` should do the trick. 
     * To convert the `ms-MCS-AdmPwdExpirationTime` attribute to something more human-readable, you can set it to a variable `$var` and run `[datetime]::FromFileTime([convert]::ToInt64($var,10)).DateTime`
 
-[^fn-attributereading]: Some "in the weeds" notes regarding LAPS attribute permissions: It's considered best practice to have the list users who can read LAPS passwords be a small one, and have additional requirements around [when](https://www.beyondtrust.com/blog/entry/just-in-time-privileged-access-management-jit-pam-the-missing-piece-to-achieving-true-least-privilege-maximum-risk-reduction) or [from where](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/secure-administrative-workstations/ba-p/258424) they can read them. But the computer object also needs the ability to write new passwords and read+write password expiration into its attributes. The computer will use the `NT AUTHORITY\SYSTEM` user to do this, and sometimes that can be another way to learn of a LAPS password's expiration datetime. The old-school way to run something as *SYSTEM* was to [wrap what you wanted to do in a Scheduled Task set to run as that user](https://superuser.com/a/604099), but you can also rely on [`psexec -s`](https://docs.microsoft.com/en-us/sysinternals/downloads/psexec) or the [`Invoke-CommandAs`](https://github.com/mkellerman/Invoke-CommandAs) PowerShell module to make this easier for you. 
+[^fn-attributereading]: Some "in the weeds" notes regarding LAPS attribute permissions: It's considered best practice to have the list users who can read LAPS passwords be a small one, and have additional requirements around [when](https://www.beyondtrust.com/blog/entry/just-in-time-privileged-access-management-jit-pam-the-missing-piece-to-achieving-true-least-privilege-maximum-risk-reduction) or [from where](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/secure-administrative-workstations/ba-p/258424) they can read them. But the computer object also needs the ability to write new passwords and read+write password expiration into its attributes. The computer will use the `NT AUTHORITY\SYSTEM` user to do this, and sometimes that can be another way to learn of a LAPS password's expiration datetime. The old-school way to run something as *SYSTEM* was to [wrap what you wanted to do in a Scheduled Task set to run as that user](https://superuser.com/a/604099), but you can also use [`psexec -s`](https://docs.microsoft.com/en-us/sysinternals/downloads/psexec) or the [`Invoke-CommandAs`](https://github.com/mkellerman/Invoke-CommandAs) PowerShell module as a bit of a shortcut. 
 
 If that's all working, then your post-MDT/non-MDT clients should be good to go.
 
