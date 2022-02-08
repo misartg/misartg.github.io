@@ -29,7 +29,7 @@ Luckily, there is a better way.
 
 ## Our approach ##
 
-{% include callout.html content="**Our approach makes use of the [Item-level targeting (ILT) feature of Group Policy Preferences (GPP)](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)) to dynamically assess whether or not a machine is still deploying, and if it is, LAPS will not be enabled. Once the machine has completed its deployment, this check will fail, LAPS will become enabled and potentially be in effect.**" type="default" %} 
+{% include callout.html content="**Our approach makes use of the [Item-level targeting (ILT) feature of Group Policy Preferences (GPP)](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)) to dynamically assess whether or not a machine is still deploying, and if it is, LAPS will not be enabled. Once the machine has completed its deployment, this check will fail, LAPS will become enabled and potentially be in effect.**" type="primary" %} 
 
 Our method also works for any system where the "Default"/autologon entries in the registry are active for the local admin user, so it's more general than just MDT, or could be easily adapted for a different autologon scenario that you might need to account for, or you could make it dynamic based on just about anything that ILT can target. 
 
@@ -121,7 +121,7 @@ If you don't have a go-to method for deploying LAPS, or would like it perhaps mo
 
 Our method will have us making two GPOs where someone would ordinarily create one; one policy to manage the settings for LAPS, and a later policy dynamically disable LAPS while MDT is building, and enable it otherwise.
 
-I *highly suggest* creating your new policy in a test OU or test environment of some kind. You can always re-link or re-create policies later once you've verified that they're working. 
+{% include callout.html content="I *highly recommend* creating your new policy in a test OU or test environment of some kind. You can always re-link or re-create policies later once you've verified that they're working." type="warning" %}
 
 You'll need to decide what LAPS settings make sense for your situation, but here's an example of ours:
 ![Image that shows partial LAPS settings in an Active Directory environment](/assets/images/misartg-LAPS-settings.png)
@@ -138,7 +138,7 @@ You'll need to decide what LAPS settings make sense for your situation, but here
 
 {% include callout.html content="**Do not** define the `Enable local admin password management` setting in this policy; we'll do it in another one." type="danger" %}
 
-{% include callout.html content="I like to mention that this policy is partial in the policy name, as a reminder to myself and other administrators that this policy does not capture all the settings on its own. GPOs are often maintained in collaboration with others and this is a clue to others (or yourself, if it's been a while) that there's something else going on here.*" type="primary" %}
+{% include callout.html content="I like to mention that this policy is partial in the policy name, as a reminder to myself and other administrators that this policy does not capture all the settings on its own. GPOs are often maintained in collaboration with others and this is a clue to others (or yourself, if it's been a while) that there's something else going on here." type="primary" %}
 
 #### Create another GPO, for dynamic LAPS enablement ####
 
@@ -279,7 +279,7 @@ With GPO precedence, **the lowest number is applied last**.
 
 And you're pretty much done!
 
-#### Test / check ####
+#### Test and check ####
 
 With your settings in place, you can now check your clients.
 
@@ -314,7 +314,7 @@ When the build reaches the suspend, open up `regedit`, navigate to `HKEY_LOCAL_M
 
 You can then click on the `Resume Task Sequence` desktop icon to resume the build, let it complete successfully, then try the checks above again to ensure that LAPS has become enabled. 
 
-If that's all working, you should be done! Enjoy your builds working with the originally set password all the way through, and the rest having LAPS configured. 
+If that's all working, **you should be done**! Enjoy your builds working with the originally set password all the way through, and the rest having LAPS configured. 
 
 ---
 

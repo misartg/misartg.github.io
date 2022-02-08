@@ -9,7 +9,7 @@ This is the GitHub Pages home for the University of Arizona MIS Department's Aca
 
 Our group strives to deliver student-focused technical academic and research support for our programs and courses. This is is not only for endeavors within the Management Information Systems department, but throughout the Eller College of Management and to other student populations at the University of Arizona.
 
-***We help people through modern and reliable technical pedagogy, academic program quality improvement and student development.***
+{% include callout.html content="***We help people through modern and reliable technical pedagogy, academic program quality improvement and student development.***" type="primary" %}
 
 Please visit our other pages for more information about our group:
 - [ARTG page on the Eller website](https://eller.arizona.edu/departments-research/centers-labs/mckeever-lab/academic-research-technologies)
