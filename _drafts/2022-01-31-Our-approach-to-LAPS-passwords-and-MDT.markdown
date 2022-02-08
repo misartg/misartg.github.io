@@ -33,7 +33,7 @@ Luckily, there is a better way.
 
 Our method also works for any system where the "Default"/autologon entries in the registry are active for the local admin user, so it's more general than just MDT, or could be easily adapted for a different autologon scenario that you might need to account for, or you could make it dynamic based on just about anything that ILT can target. 
 
-Additionally, our approach could also be broadened to other purposes where you considered yourself locked in to an ADMX setting, but would like some more dynamic control through ILT's powerful capabilities; you could use GPP's Registry items and item-level targeting features to edit the ADMX's registry entries directly, instead of through the ADMX/GPO interface.
+This approach could be broadened to other situations where you want more control of application over an ADMX's setting, through ILT's powerful capabilities; you could use GPP's Registry items and item-level targeting features to edit the ADMX's registry entries directly, instead of through the ADMX/GPO interface.
 
 ### Quickstart ###
 
