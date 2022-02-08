@@ -2,7 +2,7 @@
 layout: post
 title: "Our approach to LAPS passwords and MDT"
 author: John Moeller
-date: 2022-01-31 10:00:15 -0700
+date: 2022-02-08 13:51:15 -0700
 tags: [misartg, LAPS, MDT, GPO, GPP, ILT, "Active Directory"]
 ---
 
@@ -29,7 +29,7 @@ Luckily, there is a better way.
 
 ## Our approach ##
 
-**Our approach makes use of the [Item-level targeting (ILT) feature of Group Policy Preferences (GPP)](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)) to dynamically assess whether or not a machine is still deploying, and if it is, LAPS will not be enabled. Once the machine has completed its deployment, this check will fail, LAPS will become enabled and potentially be in effect.**
+{% include callout.html content="**Our approach makes use of the [Item-level targeting (ILT) feature of Group Policy Preferences (GPP)](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)) to dynamically assess whether or not a machine is still deploying, and if it is, LAPS will not be enabled. Once the machine has completed its deployment, this check will fail, LAPS will become enabled and potentially be in effect.**" type="default" %} 
 
 Our method also works for any system where the "Default"/autologon entries in the registry are active for the local admin user, so it's more general than just MDT, or could be easily adapted for a different autologon scenario that you might need to account for, or you could make it dynamic based on just about anything that ILT can target. 
 
@@ -136,9 +136,9 @@ You'll need to decide what LAPS settings make sense for your situation, but here
 
 * If your environment uses a different account for local administrator, you can define it in `Name of administrator account to manage`. But if you use the default account **Administrator**, then don't define that setting and LAPS will handle it for you. 
 
-***Important***: **Do not** define the `Enable local admin password management` setting in this policy; we'll do it in another one.
+{% include callout.html content="**Do not** define the `Enable local admin password management` setting in this policy; we'll do it in another one." type="danger" %}
 
-*Note: I like to mention that this policy is partial in the policy name, as a reminder to myself and other administrators that this policy does not capture all the settings on its own. GPOs are often maintained in collaboration with others and this is a clue to others (or yourself, if it's been a while) that there's something else going on here.*
+{% include callout.html content="I like to mention that this policy is partial in the policy name, as a reminder to myself and other administrators that this policy does not capture all the settings on its own. GPOs are often maintained in collaboration with others and this is a clue to others (or yourself, if it's been a while) that there's something else going on here.*" type="primary" %}
 
 #### Create another GPO, for dynamic LAPS enablement ####
 
@@ -160,9 +160,9 @@ We should have what we need now.
 
 You want to create a new GPO for dynamic LAPS enablement. Just as before, you should be doing this initially in a test area of some kind. 
 
-*Note: I like to denote in the name of this policy that some elements within will be using Item-level targeting filters. I do this in my environment by putting **[ILT]** near the end of the GPO's name. I do this as a courtesy to other admins, and as a note to myself, that there's additional configuration within the policy that might prevent it from applying to computers or users that it's scoped to.*
+{% include callout.html content="I like to denote in the name of this policy that some elements within will be using Item-level targeting filters. I do this in my environment by putting **[ILT]** near the end of the GPO's name. I do this as a courtesy to other admins, and as a note to myself, that there's additional configuration within the policy that might prevent it from applying to computers or users that it's scoped to." type="primary" %}
 
-*Feeling lazy? If you skim and understand these upcoming steps to create and configure the registry items, but would like to skip all the clicking, [I've included my policy's output below and you should be able to simply copy and paste it into your own policy](#xml-export-of-my-dynamic-laps-enablement-registry-items)[^fn-gppcopypaste]*
+{% include callout.html content="Feeling lazy? If you skim and understand these upcoming steps to create and configure the registry items, but would like to skip all the clicking, [I've included my policy's output below and you should be able to simply copy and paste it into your own policy](#xml-export-of-my-dynamic-laps-enablement-registry-items)[^fn-gppcopypaste]" type="success" %}
 
 [^fn-gppcopypaste]: Group Policy Preferences supports XML-based copy/paste of most or all of its configuration items, and also of its Item-level targeting targets as well. I suggest you use this feature as much as possible, especially if you developing big policies with minor changes between each item, or you want to apply ILTs across several policies easily. It can really cut down on errors and tedium. It also generally supports right-click enabling or disabling of individual configuration items, which can help you out during testing and troubleshooting, and isn't as heavy-handed as having to enable or disable the entire policy. 
 
@@ -228,7 +228,7 @@ You've now configured the base case/default policy, to enable LAPS if MDT (or so
 
 We'll now create a second registry item to do the opposite: disable LAPS if the Administrator account is configured to autologon. 
 
-*Note: If you're comfortable with it, you could copy/paste your previous registry item, changing the value data and reversing the sense of the ILT checks, since that's pretty much all we're doing. If not, feel free to follow these steps below and you can double check against my screenshots if you wish.*
+{% include callout.html content="If you're comfortable with it, you could copy/paste your previous registry item, changing the value data and reversing the sense of the ILT checks, since that's pretty much all we're doing. If not, feel free to follow these steps below and you can double check against my screenshots if you wish.*" type="primary" %}
 
 Click on  `New` -> `Registry Item`. Fill out the New Registry Properties as follows:
 
