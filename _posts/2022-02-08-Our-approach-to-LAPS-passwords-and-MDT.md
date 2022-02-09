@@ -7,6 +7,7 @@ tags: [misartg, LAPS, MDT, GPO, GPP, ILT, "Active Directory"]
 ---
 
 ### Background ###
+
 Our team makes extensive use of Microsoft Deployment Toolkit (MDT) to build and rebuild Windows-based computers and virtual machines. We've been using MDT for many years, and have dozens of complex Task Sequences and templates for handling complicated deployment scenarios. 
 
 Recently, we wanted to have a better way for our MDT system to coexist with Microsoft's Local Administrator Password Solution (LAPS). LAPS can be used in Active Directory environments to automate periodic resets of local administrative credentials, like the local Administrator (ie, "SID 500") account. If you'd like to know more about LAPS and some of its intricacies, [Alex Asplund's article is excellent](https://adamtheautomator.com/microsoft-laps/). LAPS settings are managed with Group Policy Objects (GPOs), and LAPS password resets are assessed for need and performed if required by the Group Policy Update process. 
