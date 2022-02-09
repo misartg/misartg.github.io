@@ -7,7 +7,7 @@ tags: [misartg, LAPS, MDT, GPO, GPP, ILT, "Active Directory"]
 ---
 
 ### Background ###
-Our team makes extensive use of Microsoft Deployment Toolkit (MDT) to build and rebuild Windows-based computers and virtual machines. We've been using MDT for many years, and have dozens of complex Task Sequences and templates for handling certain deployment scenarios. 
+Our team makes extensive use of Microsoft Deployment Toolkit (MDT) to build and rebuild Windows-based computers and virtual machines. We've been using MDT for many years, and have dozens of complex Task Sequences and templates for handling complicated deployment scenarios. 
 
 Recently, we wanted to have a better way for our MDT system to coexist with Microsoft's Local Administrator Password Solution (LAPS). LAPS can be used in Active Directory environments to automate periodic resets of local administrative credentials, like the local Administrator (ie, "SID 500") account. If you'd like to know more about LAPS and some of its intricacies, [Alex Asplund's article is excellent](https://adamtheautomator.com/microsoft-laps/). LAPS settings are managed with Group Policy Objects (GPOs), and LAPS password resets are assessed for need and performed if required by the Group Policy Update process. 
 
@@ -29,7 +29,7 @@ Luckily, there is a better way.
 
 ## Our approach ##
 
-{% include callout.html content="**Our approach makes use of the [Item-level targeting (ILT) feature of Group Policy Preferences (GPP)](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)) to dynamically assess whether or not a machine is still deploying, and if it is, LAPS will not be enabled. Once the machine has completed its deployment, this check will fail, LAPS will become enabled and potentially be in effect.**" type="primary" %} 
+{% include callout.html content="**Our approach makes use of the [Item-level targeting (ILT) feature of Group Policy Preferences (GPP)](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)) to dynamically assess whether or not a machine is still deploying, and if it is, LAPS will not be enabled. Once the machine has completed its deployment, this check will fail, our policy will enable LAPS and LAPS will go into effect.**" type="primary" %} 
 
 Our method also works for any system where the "Default"/autologon entries in the registry are active for the local admin user, so it's more general than just MDT, or could be easily adapted for a different autologon scenario that you might need to account for, or you could make it dynamic based on just about anything that ILT can target. 
 
@@ -37,9 +37,9 @@ This approach could be broadened to other situations where you want more control
 
 ### Quickstart ###
 
-If you'd like to replicate our approach and are familiar with the issue and AD/GPOs/ILT/LAPS/MDT, you can follow these steps **in a test environment or test OU/security-filtered group**. If successful, you could  implementing it broadly by re-creating/re-linking the policies as needed. 
+If you'd like to replicate our approach and are familiar with the issue and AD/GPOs/ILT/LAPS/MDT, you can follow these steps **in a test environment or test OU/security-filtered group**. If successful, you could implement it broadly by re-creating/re-linking the policies as needed. 
 
-We'll have a detailed step-by-step guide below if you'd like more context, links to resources, some screenshots. If you're new to LAPS or Group Policy Preference's Item-level targeting feature, you may wish to follow the longer guide. You also reference the longer guide if you want more information about a paricular step mentioned here. 
+We'll have a detailed step-by-step guide below if you'd like more context, links to resources and some screenshots. If you're new to LAPS or Group Policy Preference's Item-level targeting feature, you may wish to follow the longer guide. You also reference the longer guide if you want more information about a paricular step mentioned here. 
 
 * Load the LAPS ADMX(es) into your AD if you haven't already[^fn-lapsextendschema].
 * Build an installer for deploying LAPS to clients. You might do this in MDT, your configuration management system, or in a GPO for `Software Settings` -> `Assigned Applications`. It's an MSI-based installer, so it is relatively simple to deploy silently.
@@ -138,11 +138,11 @@ You'll need to decide what LAPS settings make sense for your situation, but here
 
 {% include callout.html content="**Do not** define the `Enable local admin password management` setting in this policy; we'll do it in another one." type="danger" %}
 
-{% include callout.html content="I like to mention that this policy is partial in the policy name, as a reminder to myself and other administrators that this policy does not capture all the settings on its own. GPOs are often maintained in collaboration with others and this is a clue to others (or yourself, if it's been a while) that there's something else going on here." type="primary" %}
+{% include callout.html content="I like to mention that this policy is partial in the GPO's name, as a reminder to myself and other administrators that this policy does not capture all the settings on its own. GPOs are often maintained in collaboration with others and this is a clue to others (or yourself, if it's been a while) that there's something else going on here." type="primary" %}
 
 #### Create another GPO, for dynamic LAPS enablement ####
 
-Finally, it's time for the interesting part. Remember that our overall goal is to disallow LAPS to take effect while a computer is being built by MDT, and to allow it otherwise. We're going to manage this with information on the state of the computer from the registry, and apply LAPS settings directly in the registry instead of through the ADMX, taking advantage of the Item-level Targeting feature of Group Policy Preferences.[^fn-gpphistory]
+Finally, it's time for the interesting part. Remember that our overall goal is to disallow LAPS to take effect while a computer is being built by MDT, and to enable it otherwise. We're going to manage this with information on the state of the computer from the registry, taking advantage of the Item-level Targeting feature of Group Policy Preferences, and apply LAPS enable/disable setting directly in the registry instead of through the ADMX.[^fn-gpphistory]
 
 [^fn-gpphistory]: Some of us more seasoned types can still recall that before it was Group Policy Preferences, it was PolicyMaker from Desktop Standard. It struck me while writing this article that it's been over 15 years since Microsoft acquired Desktop Standard and PolicyMaker's functionality is still relegated to a separate top-level folder in the GPMC editor window, and not integrated more broadly. But I should probably just be happy that it's there at all as it continues to be a powerful tool that we rely on for all sorts of advanced configuration that would otherwise be hidden away in scripts and configuration management platforms. 
 
@@ -228,7 +228,7 @@ You've now configured the base case/default policy, to enable LAPS if MDT (or so
 
 We'll now create a second registry item to do the opposite: disable LAPS if the Administrator account is configured to autologon. 
 
-{% include callout.html content="If you're comfortable with it, you could copy/paste your previous registry item, changing the value data and reversing the sense of the ILT checks, since that's pretty much all we're doing. If not, feel free to follow these steps below and you can double check against my screenshots if you wish.*" type="primary" %}
+{% include callout.html content="If you're comfortable with it, you could copy/paste your previous registry item, changing the value data and reversing the sense of the ILT checks, since that's pretty much all we're doing. If not, feel free to follow these steps below and you can double check against my screenshots if you wish." type="primary" %}
 
 Click on  `New` -> `Registry Item`. Fill out the New Registry Properties as follows:
 
@@ -261,7 +261,7 @@ And again click on `New Item` -> `Registry Match` to create another ILT item:
 
 Like the ILT checks for the previous registry item, these should be in an **AND** relationship with one another, which is the default, and this time, these should be remain configured as **Is** since we want LAPS to be disabled if they're true. Click `OK` to close out of the ILT menu and new Registry item menu, saving your changes. 
 
-There is a configurable **order** to the processing of Group Policy Preferences and Item-level targeting items. **With these, the lowest number applies first**[^fn-precedence-vs-gpp-order]. This is the order that we would want them in: the GPP item to enable LAPS goes first and would be overridden by item to disable it if that one matched instead. You shouldn't need to change the order, since you created them in order, but know that you can if you had to for other GPPs/ILTs that you write. 
+There is a configurable **order** to the processing of Group Policy Preferences and Item-level targeting items. **With these, the lowest number applies first**[^fn-precedence-vs-gpp-order]. This is the order that we would want them in: the GPP item to enable LAPS goes first and would be overridden by item to disable it if that one matched instead. You shouldn't need to change the order, since you created them in the order you'd want, but know that you can if you had to for other GPPs/ILTs that you write. 
 
 Feel free to compare your work to our screenshot of the second Registry item's configuration and its ILT configuration:
 
@@ -304,7 +304,7 @@ If that's all working, then your post-MDT/non-MDT clients should be good to go.
 
 In terms of testing that this solved the original issue during MDT build scenarios, the *simplest* way to verify its effectiveness may be to just try some builds, particularly ones that were failing due to this issue, and see if they now work.
 
-But the *most complete* way would be to edit one of your Task Sequences to include a [**Suspend/Resume** workflow](https://techcommunity.microsoft.com/t5/windows-blog-archive/mdt-2010-new-feature-3-suspend-and-resume-a-lite-touch-task/ba-p/706872). You can use suspend/resume to effectively pause a deployment to examine or fix something manually, then click the `Resume Task Sequence` icon on the desktop to continue the deployment. We make use of mulitple suspend/resume tasks on our thick image preparation sequences, and use the suspend/resume pattern to develop and troubleshoot complex sequences. It's a great, underutilized MDT feature! [Todd Lathome's blog has good instructions on how to create one](https://www.toddlamothe.com/deployment/pause-task-sequence-mdt-2010.htm) and an example of ours looks like this: 
+But the *most complete* way would be to edit one of your Task Sequences to include a [Suspend/Resume workflow](https://techcommunity.microsoft.com/t5/windows-blog-archive/mdt-2010-new-feature-3-suspend-and-resume-a-lite-touch-task/ba-p/706872). You can use suspend/resume to effectively pause a deployment to examine or fix something manually, then click the `Resume Task Sequence` icon on the desktop to continue the deployment. We make use of mulitple suspend/resume tasks on our thick image preparation sequences, and use the suspend/resume pattern while developing and troubleshooting complex sequences. It's a great, underutilized MDT feature! [Todd Lathome's blog has good instructions on how to create one](https://www.toddlamothe.com/deployment/pause-task-sequence-mdt-2010.htm) and an example of ours looks like this: 
 
 ![Image that shows a screenshot of an MDT Task Sequence that has a Run Command Line task to run LTISuspend.wsf](/assets/images/misartg-mdt-suspend-task.png)
 
