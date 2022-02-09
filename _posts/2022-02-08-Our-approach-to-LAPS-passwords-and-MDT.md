@@ -320,6 +320,7 @@ If that's all working, **you should be done**! Enjoy your builds working with th
 ---
 
 ### XML export of my dynamic LAPS enablement registry items ###
+
 If you'd like to try pasting my configuration of the above 2 registry settings for dynamic LAPS enablement, complete with ILT configuration, my output is here:
 
 {% gist 3dd8bf23aebed7d2924532b2990231d4 %}
