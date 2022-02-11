@@ -45,7 +45,7 @@ We'll have a detailed step-by-step guide below if you'd like more context, links
 * Load the LAPS ADMX(es) into your AD if you haven't already[^fn-lapsextendschema].
 * Build an installer for deploying LAPS to clients. You might do this in MDT, your configuration management system, or in a GPO for `Software Settings` -> `Assigned Applications`. It's an MSI-based installer, so it is relatively simple to deploy silently.
 * Create a new GPO for your LAPS settings (password construction details, password age, etc), but **do not** define the `Enable local admin password management` setting.
-* Create another new GPO for dynamic LAPS enablement and either [copy/paste my Registry items XML output below](xml-export-of-my-dynamic-laps-enablement-registry-items), or make these settings yourself:
+* Create another new GPO for dynamic LAPS enablement and either [copy/paste my Registry items XML output below](#xml-export-of-my-dynamic-laps-enablement-registry-items), or make these settings yourself:
   * Create a new **Registry Item** to **Update** `HKLM\SOFTWARE\Policies\Microsoft Services\AdmPwd\AdmPwdEnabled` to a `REG_DWORD` value of **`1`**. 
     * In this registry item, visit the **Common** tab, click the checkbox to Enable `Item-level targeting` and enter the `Targeting...` menu. 
       * Create a new **Registry Match** ILT item:
@@ -94,7 +94,7 @@ We'll have a detailed step-by-step guide below if you'd like more context, links
 
 ### Full step-by-step guide ###
 
-We'll expound on some of our decisions in this guide. And this guide might be userful for you if you're new to LAPS, Group Policy Preferences or the Item-level targeting features. You may also be interested in some of our footnotes. 
+We'll expound on some of our decisions in this guide. And this guide might be userful for you if you're new to LAPS, Group Policy Preferences or the Item-level targeting features. You may also be interested in some of our [footnotes](#footnotes).
 
 #### Load the LAPS ADMX(es) into your AD if you haven't already. ####
 
@@ -330,4 +330,4 @@ You'd copy this XML, then right-click on your GPO's `Computer Configuration` -> 
 ![Image that shows where to paste my copied GPO settings](/assets/images/misartg-LAPS-where-to-paste.png)
 
 ---
-Footnotes:
+### Footnotes ###
