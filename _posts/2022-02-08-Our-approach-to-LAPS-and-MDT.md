@@ -6,6 +6,8 @@ date: 2022-02-08 13:51:15 -0700
 tags: [misartg, LAPS, MDT, GPO, GPP, ILT, "Active Directory"]
 ---
 
+{% include callout.html content="Understand the issue and want to cut straight to \"the recipe\"? Go to our [Quickstart guide](#quickstart) and save more time by [copying and pasting our GPP Registry items XML output below](#xml-export-of-my-dynamic-laps-enablement-registry-items)." type="primary" %} 
+
 ### Background ###
 
 Our team makes extensive use of Microsoft Deployment Toolkit (MDT) to build and rebuild Windows-based computers and virtual machines. We've been using MDT for many years, and have dozens of complex Task Sequences and templates for handling complicated deployment scenarios. 
