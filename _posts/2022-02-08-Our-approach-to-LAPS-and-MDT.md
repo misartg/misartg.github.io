@@ -6,7 +6,7 @@ date: 2022-02-08 13:51:15 -0700
 tags: [misartg, LAPS, MDT, GPO, GPP, ILT, "Active Directory"]
 ---
 
-{% include callout.html content="Understand the issue and want to cut straight to \"the recipe\"? Go to our [Quickstart guide](#quickstart) and save more time by [copying and pasting our GPP Registry items XML output below](#xml-export-of-my-dynamic-laps-enablement-registry-items)." type="primary" %} 
+{% include callout.html content="Understand the issue and want to cut straight to \"the recipe\"? See our [Quickstart guide](#quickstart) and save more time by [copying and pasting our GPP Registry items XML](#xml-export-of-my-dynamic-laps-enablement-registry-items)." type="primary" %} 
 
 ### Background ###
 
