@@ -16,9 +16,9 @@ We added the callouts based on Cody Clark's [callout example page](https://cody-
 
 I think Cody's work was based on work by [Tom Johnson](https://idratherbewriting.com/aboutme/) in his [Jekyll Documentation Theme](https://github.com/tomjoht/documentation-theme-jekyll), which appears interesting and excellent. 
 
-#### Notes on local development ####
+#### Local development environment setup ####
 
-You can use jekyll to run this site locally, allowing you to develop easily. 
+You can use [Jeykll](https://jekyllrb.com/) to run this site locally, allowing you to develop easily. 
 
 1. Install ruby. If you have chocolatey, `choco install ruby.install` should do. That should come with Ruby's `gem` installer as well.  
 
@@ -28,7 +28,6 @@ You can use jekyll to run this site locally, allowing you to develop easily.
 
 4. Enter this repo's root folder and run `bundle install` to install the needed dependencies.
 
-5. Start the site with: `bundle exec jekyll serve --livereload --drafts --port 8080`. You can view the site from your browser at `http://localhost:8080`. You can stop the local server with `CTRL` + `C`. 
+5. Start the site with: `bundle exec jekyll serve --livereload --drafts --port 8080`. You can view the site from your browser at http://localhost:8080. You can stop the local server with `CTRL` + `C`. 
 
-While you're developing your posts, you probably want to keep them in the `_drafts` folder so they don't get published even if pushed to your GitHub Pages site. 
-They can be navigated to and viewed in the GitHub repo itself, but they're not linked or visible from the main `https://misartg.github.io` page. 
+While you're developing your posts, you probably want to keep them in the `_drafts` folder so they don't get published even if pushed to your public repo. They can be navigated to and viewed in the GitHub repo itself, but they're not linked or visible from the main https://misartg.github.io page. 
