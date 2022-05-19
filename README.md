@@ -20,13 +20,13 @@ I think Cody's work was based on work by [Tom Johnson](https://idratherbewriting
 
 You can use jekyll to run this site locally, allowing you to develop easily. 
 
-1. Install ruby. If you have chocolatey, `choco install ruby.install` should do. 
+1. Install ruby. If you have chocolatey, `choco install ruby.install` should do. That should come with Ruby's `gem` installer as well.  
 
-2. Install jekyll. `gem install jekyll bunder` might work for you. 
+2. Install jekyll. `gem install jekyll bundler` should work for you. 
 
 3. Clone this repo.
 
-4. Enter this repo's root folder and run `bundle install` to install the needed gems.
+4. Enter this repo's root folder and run `bundle install` to install the needed dependencies.
 
 5. Start the site with: `bundle exec jekyll serve --livereload --drafts --port 8080`. You can view the site from your browser at `http://localhost:8080`. You can stop the local server with `CTRL` + `C`. 
 
