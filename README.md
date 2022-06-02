@@ -28,6 +28,6 @@ You can use [Jeykll](https://jekyllrb.com/) to run this site locally, allowing y
 
 4. Enter this repo's root folder and run `bundle install` to install the needed dependencies.
 
-5. Start the site with: `bundle exec jekyll serve --livereload --drafts --port 8080`. You can view the site from your browser at http://localhost:8080. You can stop the local server with `CTRL` + `C`. 
+5. Start the site in auto-refresh mode and "what-if" publishing of draft posts with: `bundle exec jekyll serve --livereload --drafts --port 8080`. You can view the site from your browser at http://localhost:8080. You can stop the local server with `CTRL` + `C`. 
 
 While you're developing your posts, you probably want to keep them in the `_drafts` folder so they don't get published even if pushed to your public repo. They can be navigated to and viewed in the GitHub repo itself, but they're not linked or visible from the main https://misartg.github.io page. 
