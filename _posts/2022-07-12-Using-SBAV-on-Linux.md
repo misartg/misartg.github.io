@@ -39,10 +39,10 @@ We can use [Sophos Bootable Anti-Virus (SBAV)](https://support.sophos.com/suppor
 ![Image that shows us running the detect-only scan](/assets/images/22-07-sbav-linux/misartg-sbav-scan-detect-only.png)
 
 ![Image that shows us running the scan running](/assets/images/22-07-sbav-linux/misartg-sbav-scan-running.png)
-*Scan running.*
+*Scan running. Our scans run pretty quickly, about 3GB/minute on this user's CentOS 7 virtual machine with xfs filesystem.**
 
 ![Image that shows us running the scan after its complete](/assets/images/22-07-sbav-linux/misartg-sbav-scan-complete.png)
-*Our scans run pretty quickly, about 3GB/minute on this user's CentOS 7 virtual machine with xfs filesystem.*
+*Scan complete.*
 
 * After your scan completes, remove/eject your SBAV media and reboot. 
 
