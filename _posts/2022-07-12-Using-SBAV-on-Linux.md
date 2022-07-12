@@ -46,7 +46,7 @@ We can use [Sophos Bootable Anti-Virus (SBAV)](https://support.sophos.com/suppor
 
 * After your scan completes, remove/eject your SBAV media and reboot. 
 
-And in case you were worried that the scan wasn't actually doing anything, we did a test where we placed [the EICAR file](https://www.eicar.org/download-anti-malware-testfile/) in a test user's home directory, and it was successfully detected by SBAV:
+And in case you were worried that the scan wasn't actually doing anything, we placed [the EICAR file](https://www.eicar.org/download-anti-malware-testfile/) in a test user's home directory, and it was successfully detected by SBAV:
 
 ![Image that shows SBAV finding the EICAR test file in its scan](/assets/images/22-07-sbav-linux/misartg-sbav-EICAR-found-console.png)
 *EICAR test file found.*
