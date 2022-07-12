@@ -20,9 +20,9 @@ I think Cody's work was based on work by [Tom Johnson](https://idratherbewriting
 
 You can use [Jeykll](https://jekyllrb.com/) to run this site locally, allowing you to develop easily. 
 
-1. Install ruby. If you have chocolatey, `choco install ruby.install` should do. That should come with Ruby's `gem` installer as well.  
+1. Install ruby. ~~If you have chocolatey, `choco install ruby.install` should do. That should come with Ruby's `gem` installer as well.~~ The [choco installer doesn't have everything you'll need](https://github.com/tmm1/http_parser.rb/issues/55) to do this. Instead, [get the 64-bit Ruby+devkit installer and install it manually](https://rubyinstaller.org/downloads/). 
 
-2. Install jekyll. `gem install jekyll bundler` should work for you. 
+2. Install jekyll and bundler. `gem install jekyll bundler` should work. 
 
 3. Clone this repo.
 
@@ -30,4 +30,4 @@ You can use [Jeykll](https://jekyllrb.com/) to run this site locally, allowing y
 
 5. Start the site in auto-refresh mode and "what-if" publishing of draft posts with: `bundle exec jekyll serve --livereload --drafts --port 8080`. You can view the site from your browser at http://localhost:8080. You can stop the local server with `CTRL` + `C`. 
 
-While you're developing your posts, you probably want to keep them in the `_drafts` folder so they don't get published even if pushed to your public repo. They can be navigated to and viewed in the GitHub repo itself, but they're not linked or visible from the main https://misartg.github.io page. 
+While you're developing your posts, you probably want to keep them in the `_drafts` folder so they don't get published even if pushed to your public repo. The draft posts can be navigated to and viewed in the GitHub repo itself, but they're not linked or visible from the https://misartg.github.io GitHub page. 
