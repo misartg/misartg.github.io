@@ -127,7 +127,7 @@ Our method will have us making two GPOs where someone would ordinarily create on
 {% include callout.html content="I *highly recommend* creating your new policy in a test OU or test environment of some kind. You can always re-link or re-create policies later once you've verified that they're working." type="warning" %}
 
 You'll need to decide what LAPS settings make sense for your situation, but here's an example of ours:
-![Image that shows partial LAPS settings in an Active Directory environment](/assets/images/misartg-LAPS-settings.png)
+![Image that shows partial LAPS settings in an Active Directory environment](/assets/images/22-01-mdt-laps/misartg-LAPS-settings.png)
 
 * If you're using LAPS in earnest, you certainly want to **Enable** the `Do not allow password expiration time longer than required by policy` policy. This ensures that an outside influence cannot extend the LAPS password deadline to circumvent the control.
 
@@ -155,7 +155,7 @@ First, you need to know the username of the account that MDT uses for local admi
 
 Second, we need to know the actual registry setting that the LAPS Administrative Template setting modifies to enable or disable LAPS. Luckily, [the fantastic admx.help has a page that can tell us what it is](https://admx.help/?Category=LAPS&Policy=FullArmor.Policies.C9E1D975_EA58_48C3_958E_3BC214D89A2E::POL_AdmPwd_Enabled).
 
-![Image that shows the registry setting for enabling/disabling LAPS, which is HKLM\	Software\Policies\Microsoft Services\AdmPwd\AdmPwdEnabled, using a value of 1 for enabled](/assets/images/misartg-LAPS-admxhelp-enable-LAPS-reg.png)
+![Image that shows the registry setting for enabling/disabling LAPS, which is HKLM\	Software\Policies\Microsoft Services\AdmPwd\AdmPwdEnabled, using a value of 1 for enabled](/assets/images/22-01-mdt-laps/misartg-LAPS-admxhelp-enable-LAPS-reg.png)
 
 The registry setting to enable or disable LAPS is a DWORD value of `AdmPwdEnabled` at `HKEY_LOCAL_MACHINE\Software\Policies\Microsoft Services\AdmPwd`, Data being a `1` for enabled or `0` for disabled. 
 
@@ -178,17 +178,17 @@ In the GPMC editor's windows of our policy, expand the left-hand page to `Comput
 * Value type: `REG_DWORD`
 * Value data: **1** (hex or decimal doesn't matter for this value)
 
-![Image that shows the new registry item's properties filled out as just instructed](/assets/images/misartg-LAPS-first-reg-entry-settings.png)
+![Image that shows the new registry item's properties filled out as just instructed](/assets/images/22-01-mdt-laps/misartg-LAPS-first-reg-entry-settings.png)
 
 This creates the registry settings necessary to enable LAPS. 
 
 Click on the `Common` tab to get to special GPP settings. **Click** the checkbox to enable `Item-level targeting` then **click** the `Targeting...` button to enter that menu.
 
-![Image that shows the where to click to enable and configure Item-level targeting in the Common tab](/assets/images/misartg-enable-then-configure-targeting.png)
+![Image that shows the where to click to enable and configure Item-level targeting in the Common tab](/assets/images/22-01-mdt-laps/misartg-enable-then-configure-targeting.png)
 
 In the ILT `Targeting Editor` menu, click on `New Item` then `Registry Match` to create a registry match targeting item. 
 
-![Image that shows the where to click to create a new registry match ILT targeting item](/assets/images/misartg-ILT-menu-new-regmatch.png)
+![Image that shows the where to click to create a new registry match ILT targeting item](/assets/images/22-01-mdt-laps/misartg-ILT-menu-new-regmatch.png)
 
 Then configure your newly-created item as follows:
 
@@ -200,15 +200,15 @@ Then configure your newly-created item as follows:
 * `Value type`: Any
 * `Value data`: **1**
 
-![Image that shows where to input the initial config for the first registry match ILT item](/assets/images/misartg-first-regmatch-item-initial-config.png)
+![Image that shows where to input the initial config for the first registry match ILT item](/assets/images/22-01-mdt-laps/misartg-first-regmatch-item-initial-config.png)
 
 What you've just done is create a check that will require the autologon setting `HKLM\SOFTWARE\Microsoft\Windows NT\Current Version\Winlogon\AutoAdminLogon` to be **1** for your policy to apply. **But this is the opposite of what we want**. Right-click your recently created item and choose `Item Options` -> **`Is not`** to reverse the sense of the check. 
 
-![Image that shows where to click to reverse the sense of the ILT check with the Is Not selection](/assets/images/misartg-first-regmatch-reverse-sense.png)
+![Image that shows where to click to reverse the sense of the ILT check with the Is Not selection](/assets/images/22-01-mdt-laps/misartg-first-regmatch-reverse-sense.png)
 
 After you change to the **Is Not** sense, you also get some bonus logic like the registry value not existing in the first place, in addition to the values not matching. 
 
-![Image that shows our negated ILT item check](/assets/images/misartg-first-reg-match-now-reversed.png)
+![Image that shows our negated ILT item check](/assets/images/22-01-mdt-laps/misartg-first-reg-match-now-reversed.png)
 
 We want to create a second check, to verify that the autologon process is using the username of the MDT user. 
 
@@ -223,7 +223,7 @@ Click on `New Item` -> `Registry Match` and fill it out thusly:
 
 Then right-click the item you just created and again choose `Item Options` -> **`Is Not`** and ensure that `Item Option` -> **`And`** is selected. 
 
-![Image that shows both our ILT items for the LAPS enablement policy](/assets/images/misartg-both-regmatch-items.png)
+![Image that shows both our ILT items for the LAPS enablement policy](/assets/images/22-01-mdt-laps/misartg-both-regmatch-items.png)
 
 Click `OK` on the two windows to complete the configuration. 
 
@@ -268,7 +268,7 @@ There is a configurable **order** to the processing of Group Policy Preferences 
 
 Feel free to compare your work to our screenshot of the second Registry item's configuration and its ILT configuration:
 
-![Image that shows the second Registry item's settings and its ILT configuration](/assets/images/misartg-second-regmatch-item-and-ilt-config.png)
+![Image that shows the second Registry item's settings and its ILT configuration](/assets/images/22-01-mdt-laps/misartg-second-regmatch-item-and-ilt-config.png)
 
 #### Order your GPOs ####
 
@@ -278,7 +278,7 @@ While not completely necessary, I'd recommend setting your 2 created GPOs such t
 
 With GPO precedence, **the lowest number is applied last**. 
 
-![Image that shows the second Registry item's settings and its ILT configuration](/assets/images/misartg-GPO-precedence.png)
+![Image that shows the second Registry item's settings and its ILT configuration](/assets/images/22-01-mdt-laps/misartg-GPO-precedence.png)
 
 And you're pretty much done!
 
@@ -294,7 +294,7 @@ On a client where you'd expect LAPS to be enabled, that is, a client that's not 
   * Check on the `AdmPwdEnabled` setting. It should be **`1`** to show LAPS is enabled. 
   * And you should see the other LAPS settings be applied as well, from the GPO using LAPS' ADMX. 
 
-![Image that shows the registry with our LAPS settings, including LAPS being enabled](/assets/images/misartg-verification-of-LAPS-enablement-via-registry.png)
+![Image that shows the registry with our LAPS settings, including LAPS being enabled](/assets/images/22-01-mdt-laps/misartg-verification-of-LAPS-enablement-via-registry.png)
 
 * Run `gpupdate /force` again. With the LAPS settings in place, the LAPS client should be managing the password on this run. You can now use LAPS' tools to view the password and expiration date:
   * From an administrative console where you installed LAPS, you can use the `LAPS UI` application to see the LAPS password and its expiration date. *Note: If the previously set local admin password is younger than the `Password Age (days)` setting you use, LAPS won't reset it until it ages out*
@@ -309,7 +309,7 @@ In terms of testing that this solved the original issue during MDT build scenari
 
 But the *most complete* way would be to edit one of your Task Sequences to include a [Suspend/Resume workflow](https://techcommunity.microsoft.com/t5/windows-blog-archive/mdt-2010-new-feature-3-suspend-and-resume-a-lite-touch-task/ba-p/706872). You can use suspend/resume to effectively pause a deployment to examine or fix something manually, then click the `Resume Task Sequence` icon on the desktop to continue the deployment. We make use of mulitple suspend/resume tasks on our thick image preparation sequences, and use the suspend/resume pattern while developing and troubleshooting complex sequences. It's a great, underutilized MDT feature! [Todd Lathome's blog has good instructions on how to create one](https://www.toddlamothe.com/deployment/pause-task-sequence-mdt-2010.htm) and an example of ours looks like this: 
 
-![Image that shows a screenshot of an MDT Task Sequence that has a Run Command Line task to run LTISuspend.wsf](/assets/images/misartg-mdt-suspend-task.png)
+![Image that shows a screenshot of an MDT Task Sequence that has a Run Command Line task to run LTISuspend.wsf](/assets/images/22-01-mdt-laps/misartg-mdt-suspend-task.png)
 
 For testing this situation, you'd put your suspend/resume near the end of a Task Sequence, long after it should have joined the domain, and if you've performed reboots or done `gpupdate`s as part of your build, all the better. Then kick off a build/rebuild of a test system with that sequence.
 
@@ -329,7 +329,7 @@ If you'd like to try pasting my configuration of the above 2 registry settings f
 
 You'd copy this XML, then right-click on your GPO's `Computer Configuration` -> `Preferences` -> `Windows Settings` -> `Registry` option in the left-hand pane of the Group Policy Management Editor, then click **Paste**[^fn-gppcopypaste]. 
 
-![Image that shows where to paste my copied GPO settings](/assets/images/misartg-LAPS-where-to-paste.png)
+![Image that shows where to paste my copied GPO settings](/assets/images/22-01-mdt-laps/misartg-LAPS-where-to-paste.png)
 
 ---
 ### Footnotes ###
