@@ -6,6 +6,8 @@ date: 2022-07-12 11:15:15 -0700
 tags: [misartg, sbav, antivirus, "Anti-Virus", linux, xfs]
 ---
 
+{% include callout.html content="[Sophos Bootable Anti-Virus was retired in August 2022](https://support.sophos.com/support/s/article/KB-000033800?language=en_US)<br /><br />We will leave this documentation up in case folks find it useful." type="primary" %}
+
 ### Background ###
 
 We can use [Sophos Bootable Anti-Virus (SBAV)](https://support.sophos.com/support/s/article/KB-000033800?language=en_US) for off-line scans of our machines. However, in its default mode, SBAV doesn't automatically mount our linux machines' drives even though the software does have the ability to scan them. This shows how we mount the drives manually. 
