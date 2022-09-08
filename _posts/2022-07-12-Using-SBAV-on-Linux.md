@@ -6,7 +6,7 @@ date: 2022-07-12 11:15:15 -0700
 tags: [misartg, sbav, antivirus, "Anti-Virus", linux, xfs]
 ---
 
-{% include callout.html content="[Sophos Bootable Anti-Virus was retired in August 2022](https://support.sophos.com/support/s/article/KB-000033800?language=en_US)<br /><br />We will leave this documentation up in case folks find it useful." type="primary" %}
+{% include callout.html content="[Sophos Bootable Anti-Virus was retired in August 2022](https://support.sophos.com/support/s/article/KB-000033800?language=en_US).<br /><br />We will leave this documentation up in case folks find it useful." type="primary" %}
 
 ### Background ###
 
