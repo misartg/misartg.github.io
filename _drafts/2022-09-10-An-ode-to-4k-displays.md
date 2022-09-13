@@ -6,13 +6,13 @@ date: 2022-09-10 09:05:05 -0700
 tags: [misartg, 4k, monitors, displays, "large format"]
 ---
 
+### Large-format 4k displays: A love story ###
+
 When I embarked on my IT career in 2004, I quickly realized the value of having multiple displays. While "virtual desktops" on my old school Macbook Pro and Linux GUIs were certainly nice to have, I much preferred having additional physical displays. I remember scavenging old monitors destined for the surplus property office and making them work with the PC in my cubicle, starting with 1 additonal 1366x768 display and working my way up to 3 mismatched displays I collected over a number of years. 
 
 Sometime in 2014 I saw an article linked from slashdot [by Brian Hauer, whose office purchased low-end (~$500) Seiki 39" 4k monitors for their programmers](https://tiamat.tsotech.com/4k-is-for-programmers). I was able to lobby my employer, the [University of Arizona College of Pharmacy](https://www.pharmacy.arizona.edu), to get me one as a test, in lieu of other technology refresh/upgrades, and quickly fell in love with the setup. I was previously running 3 1080p displays side-by-side-by-side, and switched to 1x 1080p alongside the 39" 4k Seiki, being driven by my HP desktop PC. I recall having to sift through our boxes of spare parts and computers to find video cards that could successfully drive my displays.
 
-### Large-format 4k displays: A love story ###
-
-I immediately noticed the following:
+I noticed the following:
 1. It's **really nice** to look at editor/IDE/reference materials in a tall window on a big 4k screen alongside other windows where you're making changes or monitoring progress/output.
 2. It's similarly **really nice** to do your editing/change work on a 1080p full-screen window and have output on part of your 4k, along with other things you might be cheecking like e-mail or chat. 
 3. A 4k monitor is essentially 4x 1080p monitors in 2x2 alignment on a single panel, and I found it more convenient to manage my workflow on a single panel than on separate physical monitors. I feel strongly that a 4k monitor needs to be large-format to be useful in this way, at least 40"; I now believe 43" to basically ideal for me.  
@@ -39,7 +39,7 @@ When we hired our assistant director, I wanted to ensure he could have one too, 
 ![Image that shows a 55" Samsung Q-series 4k display on the ARTG workbench Zoom Room in the MIS Commons.](/assets/images/22-09-4k-displays/misartg-4k-samsungqseries-in-MIS-Commons.jpg)
 *Our MIS Commons Zoom Room uses a 55" Samsung Q-series 4k display and a video capture device to allow for simplified screen sharing. Students use the setup to collaborate in real time at the bench, showing a local computer's content in 4k resolution on the screen and optionally over Zoom.*
 
-Back at the house, my 4k rampage wasn't over. By this point, TV manufacturers were generally making at least 1 HDMI port on their devices "compatible" with computers by providing 4k@60hz (and other features, like 4:4:4/RGB color space), so it was easier and cheaper than ever to go 4k. I was able to convince my wife of the value of large-format 4k display for work productivity, and in 2019 she got a cheap ($250!!) Visio 43" 4-series 4k display for her space, a combo office/craft loft. The device worked great with her personal Surface Pro 4 and her work-issued laptops, even through [a low-end KVM switch](https://www.amazon.com/gp/product/B07CWR31PN/).
+Back at the house, my 4k rampage wasn't over. By this point, TV manufacturers were generally making at least 1 HDMI port on their devices "compatible" with computers by providing 4k@60hz and RGB color space, so it was easier and cheaper than ever to go 4k. I was able to convince my wife of the value of large-format 4k display for work productivity, and in 2019 she got a cheap ($250!!) Visio 43" 4-series 4k display for her space, a combo office/craft loft. The device worked great with her personal Surface Pro 4 and her work-issued laptops, even through [a low-end KVM switch](https://www.amazon.com/gp/product/B07CWR31PN/).
 
 ![Image that shows my wife's home setup in 2022, with a 43" Vizio 4-series 4k monitor, her two machines, and her KVM switch.](/assets/images/22-09-4k-displays/misartg-4k-vizio4series-at-home-2022.jpg)
 *My wife's office/craft space in 2022, with a 43" Vizio 4-series 4k display and her two devices managed by a KVM switch.*
