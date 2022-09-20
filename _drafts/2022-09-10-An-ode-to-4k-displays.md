@@ -52,7 +52,7 @@ I also built out my own work-from-home setup a bit more during COVID, adding 2 1
 ![Image that shows my home setup in 2021, with a 49" Wasabi Mango 4k monitor plus 2 1080p screens and a sound bar.](/assets/images/22-09-4k-displays/misartg-4k-wm-at-home-2021.jpg)
 *COVID iteration of my home office, with 2 1080p screens plus the 49" 4k. Photo taken in 2021. I've since top-mounted the sound bar.*
 
-And while we don't use it (yet) for work purposes, we do use our laptops to drive a Vizio 6-series 4k TV on a rolling stand for Zoom and geoguessr purposes. If I could roll it around the house more easily, I could see it becoming a nice 4k addition to my home office for special projects. Back at the office, I could see such a setup making for an interesting mobile [Zoom Room](https://explore.zoom.us/docs/en-us/zoomrooms.html), especially if I could incorporate a directional speaker like the [Sound Dome from Brown Innovations](https://www.browninnovations.com/sound-dome-directional-speakers); sort of an on-the-go huddle space. 
+And while we don't use it (yet) for work purposes, we do use our laptops to drive a Vizio 6-series 4k TV on a rolling stand for Zoom (and geoguessr) purposes. If I could roll it around the house more easily, I could see it becoming a nice 4k addition to my home office for special projects. Thinking about this setup from a work perspective, I could see it making for an interesting mobile [Zoom Room](https://explore.zoom.us/docs/en-us/zoomrooms.html), especially if I could incorporate a directional speaker like the [Sound Dome from Brown Innovations](https://www.browninnovations.com/sound-dome-directional-speakers); sort of an on-the-go huddle space. 
 
 
 ### Getting the most from a 4k setup ###
