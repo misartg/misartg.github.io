@@ -36,10 +36,13 @@ When I started at [MIS](https://mis.eller.arizona.edu/) in June of 2015, I knew 
 
 When we hired our assistant director, I wanted to ensure he could have one too, and by then the excellent [43" Dell U4320Q 4k monitor](https://www.dell.com/en-us/shop/dell-ultrasharp-43-4k-usb-c-monitor-u4320q/apd/210-avke/monitors-monitor-accessories) was widely available. This display has become our go-to large-format 4k display when we have a need at work. 
 
+![Image that shows a 43" Dell U4320Q 4k display in the CSOC.](/assets/images/22-09-4k-displays/misartg-4k-dellu4320q-in-CSOC.jpg)
+*Our Cybersecurity Operations Center workstations use the 43" Dell U4320Q 4k displays as well.*
+
 ![Image that shows a 55" Samsung Q-series 4k display on the ARTG workbench Zoom Room in the MIS Commons.](/assets/images/22-09-4k-displays/misartg-4k-samsungqseries-in-MIS-Commons.jpg)
 *Our MIS Commons Zoom Room uses a 55" Samsung Q-series 4k display and a video capture device to allow for simplified screen sharing. Students use the setup to collaborate in real time at the bench, showing a local computer's content in 4k resolution on the screen and optionally over Zoom.*
 
-Back at the house, my 4k rampage wasn't over. By this point, TV manufacturers were generally making at least 1 HDMI port on their devices "compatible" with computers by providing 4k@60hz and RGB color space, so it was easier and cheaper than ever to go 4k. I was able to convince my wife of the value of large-format 4k display for work productivity, and in 2019 she got a cheap ($250!!) Visio 43" 4-series 4k display for her space, a combo office/craft loft. The device worked great with her personal Surface Pro 4 and her work-issued laptops, even through [a low-end KVM switch](https://www.amazon.com/gp/product/B07CWR31PN/).
+Back at the house, my 4k rampage wasn't over. By this point, TV manufacturers were generally making at least 1 HDMI port on their devices "compatible" with computers, providing 4k@60hz and RGB color space, so it was easier and cheaper than ever to go 4k. I was able to convince my wife of the value of large-format 4k display for work productivity, and in 2019 she got a cheap ($250!!) Visio 43" 4-series 4k display for her space, a combo office/craft loft. The device worked great with her personal Surface Pro 4 and her work-issued laptops, even through [a low-end KVM switch](https://www.amazon.com/gp/product/B07CWR31PN/).
 
 ![Image that shows my wife's home setup in 2022, with a 43" Vizio 4-series 4k monitor, her two machines, and her KVM switch.](/assets/images/22-09-4k-displays/misartg-4k-vizio4series-at-home-2022.jpg)
 *My wife's office/craft space in 2022, with a 43" Vizio 4-series 4k display and her two devices managed by a KVM switch.*
