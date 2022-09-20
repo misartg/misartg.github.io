@@ -37,7 +37,7 @@ When I started at [MIS](https://mis.eller.arizona.edu/) in June of 2015, I knew 
 When we hired our assistant director, I wanted to ensure he could have one too, and by then the excellent [43" Dell U4320Q 4k monitor](https://www.dell.com/en-us/shop/dell-ultrasharp-43-4k-usb-c-monitor-u4320q/apd/210-avke/monitors-monitor-accessories) was widely available. This display has become our go-to large-format 4k display when we have a need at work.
 
 ![Image that shows a 43" Dell U4320Q 4k monitor and the rest of our assistant director's computing setup in MIS in 2022.](/assets/images/22-09-4k-displays/misartg-4k-dellu4320q-at-MIS.jpg)
-*Our Assistant Director Patrick Brown's computing setup, with a 43" Dell U4320Q 4k monitor and a 1080p screen in portrait mode.*
+*Our assistant director's computing setup, with a 43" Dell U4320Q 4k monitor and a 1080p screen in portrait mode.*
 
 ![Image that shows a 43" Dell U4320Q 4k display in the CSOC in 2022.](/assets/images/22-09-4k-displays/misartg-4k-dellu4320q-in-CSOC.jpg)
 *Our Cybersecurity Operations Center workstations use the 43" Dell 4k displays as well.*
