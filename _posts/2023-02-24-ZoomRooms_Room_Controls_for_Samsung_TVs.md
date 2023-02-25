@@ -7,7 +7,6 @@ tags: [zoom, samsung, mdc, "Room Controls", "Zoom Rooms", display, tv, qm-h]
 ---
 
 ### Background ###
-
 We wanted to look at controling our Zoom Room TVs, Samsung commercial displays, using the Zoom Rooms "Native Room Controls" method, [since Zoom says that the older HDMI CEC method for turning on and off the display is no longer supported](https://support.zoom.us/hc/en-us/articles/115003340906-Zoom-Rooms-display-systems-on-off). 
 
 HDMI CEC mostly worked for us[^fn-duke-hdmicec] on our simple Zoom Rooms, but the new Room Controls features would allow us to do more interesting things with other components down the line.
@@ -20,8 +19,7 @@ Please see [our gist](https://gist.github.com/jmoeller-ua/a8c1eed5634bf00f0a1faf
 {% gist a8c1eed5634bf00f0a1fafce7dcd303d %}
 
 ### Helpful links ###
-
-* The excellent [samsung-mdc](https://github.com/vgavro/samsung-mdc) project helped us in all phases, from initial understanding of the MDC service's capabilities and then later on configuration details in the Room Controls JSON. Comparing the `samsung-mdc` verbose output and source code for individual commands with Wireshark captures allowed us to see that we weren't properly escaping our hex codes. This is an excellent tool that we will use for additional non-Zoom display control going forward. 
+* The excellent [Samsung-MDC](https://github.com/vgavro/samsung-mdc) project helped us in all phases, from initial understanding of the MDC service's capabilities, testing, and then later on configuration details in the Room Controls JSON. Comparing the `samsung-mdc` verbose output and source code for individual commands with Wireshark captures allowed us to see that we weren't properly escaping our hex codes. This is an excellent tool that we will use for additional non-Zoom display control going forward. 
 
 * [Just Add Power](http://justaddpower.com/)'s comprehensive Samsung RS232 support pages for [RS232C](https://support.justaddpower.com/kb/article/245-samsung-rs232-control-rs232c/) and [Ex-Link](https://support.justaddpower.com/kb/article/16-samsung-rs232-control-exlink/) formats confirmed we were on the right track and will be most  helpful if we ever need to manipulate other Samsungs via Ex-Link. 
 
