@@ -31,3 +31,4 @@ gem "webrick", "~> 1.7"
 
 # Our additions
 gem 'jekyll-gist'
+gem 'jekyll-sitemap'
