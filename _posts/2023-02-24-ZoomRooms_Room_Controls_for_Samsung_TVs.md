@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Zoom Rooms \"Room Controls\" for Samsung display power state"
+title: "Zoom Rooms \"Room Controls\" for Samsung display power actions"
 author: John Moeller
 date: 2023-02-24 13:05:05 -0700
-tags: [zoom, samsung, mdc, "Room Controls", "Zoom Rooms", display, tv, qm-h]
+tags: [zoom, samsung, mdc, "Room Controls", "Zoom Rooms", display, tv, qm-h, power]
 ---
 
 ### Background ###
