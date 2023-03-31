@@ -9,12 +9,12 @@ tags: [zoom, samsung, mdc, "Room Controls", "Zoom Rooms", display, tv, qm-h, pow
 ### Background ###
 We wanted to look at controling our Zoom Room TVs, Samsung commercial displays, using the Zoom Rooms "Native Room Controls" method, [since Zoom says that the older HDMI CEC method for turning on and off the display is no longer supported](https://support.zoom.us/hc/en-us/articles/115003340906-Zoom-Rooms-display-systems-on-off). 
 
-HDMI CEC mostly worked for us[^fn-duke-hdmicec] on our simple Zoom Rooms, but the new Room Controls features would allow us to do more interesting things with other components down the line.
+The original Zoom "Device Operation Time" feature mostly worked for us[^fn-duke-hdmicec] on our simple Zoom Rooms, but the new Room Controls features would allow us to do more interesting things with other components down the line.
 
 [^fn-duke-hdmicec]: I suspect HDMI CEC would have worked fully for us if we had read and followed the [Duke DDMC's fantastic guide](https://sites.duke.edu/ddmc/2019/01/17/zoom-room-tv-control-a-cec-story/) when we got started, instead of finding it after the fact.  
 
 ## Our approach ##
-Please see [our gist](https://gist.github.com/jmoeller-ua/a8c1eed5634bf00f0a1fafce7dcd303d) for a configuration sample JSON  that works with our Samsung QM-H series displays, using [Samsung's MDC service](https://displaysolutions.samsung.com/fileDownload/21891). 
+Please see [our gist](https://gist.github.com/jmoeller-ua/a8c1eed5634bf00f0a1fafce7dcd303d) for a configuration sample JSON that works with our Samsung QM-H series displays, using [Samsung's MDC service](https://displaysolutions.samsung.com/fileDownload/21891). 
 
 {% gist a8c1eed5634bf00f0a1fafce7dcd303d %}
 
