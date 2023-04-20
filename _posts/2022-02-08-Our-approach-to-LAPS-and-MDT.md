@@ -8,6 +8,8 @@ tags: [misartg, LAPS, MDT, GPO, GPP, ILT, "Active Directory"]
 
 {% include callout.html content="Understand the issue and want to cut straight to \"the recipe\"? See our [Quickstart guide](#quickstart) and save more time by [copying and pasting our GPP Registry items XML](#xml-export-of-my-dynamic-laps-enablement-registry-items)." type="primary" %} 
 
+{% include callout.html content="UPDATE - April 19, 2023: [**See our updated guidance**](#update-41923---updating-for-windows-laps) given the [new Windows LAPS feature included with the April 2023 updates](https://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747)." type="success" %}
+
 ### Background ###
 
 Our team makes extensive use of Microsoft Deployment Toolkit (MDT) to build and rebuild Windows-based computers and virtual machines. We've been using MDT for many years, and have dozens of complex Task Sequences and templates for handling complicated deployment scenarios. 
@@ -330,6 +332,67 @@ If you'd like to try pasting my configuration of the above 2 registry settings f
 You'd copy this XML, then right-click on your GPO's `Computer Configuration` -> `Preferences` -> `Windows Settings` -> `Registry` option in the left-hand pane of the Group Policy Management Editor, then click **Paste**[^fn-gppcopypaste]. 
 
 ![Image that shows where to paste my copied GPO settings](/assets/images/22-01-mdt-laps/misartg-LAPS-where-to-paste.png)
+
+---
+
+### Update 4/19/23 - Updating for Windows LAPS ###
+Microsoft [released a new version of LAPS](https://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747), called ["Windows LAPS"](https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-overview), on April 11th, 2023. It was included in patches released for Windows 10, Windows 11, and Windows Server 2019 and 2022[^fn-newlapsno2016server], so if you installed those updates, you now have Windows LAPS. 
+
+[^fn-newlapsno2016server]: [Windows LAPS was does not work on Windows Server 2016](https://www.reddit.com/r/sysadmin/comments/12itqb9/windows_laps_available_today/jfvq5s3/?context=1), so if you're still using Windows Server 2016 and wish to manage LAPS on it, you'll still use the old method with the LAPS CSE and the old LAPS GPO settings. If you're moving forward with Windows LAPS in your environment, you may wish to write a WMI filter to target your Windows Server 2016 member servers, and then restrict those old LAPS GPOs to those 2016 Server systems via that WMI filter, to manage both old and new LAPS in your environment. 
+
+Luckily, the new Windows LAPS can manage clients running the older LAPS CSE in what they call Legacy Mode, so you can ease into Windows LAPS over time. Unfortunately, there is additional work to do in scenarios like the one we're try to solve here, preventing LAPS from applying during system deployment. But, fortunately, there's [now guidance from Microsoft on how to handle that](https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-scenarios-legacy#disabling-legacy-microsoft-laps-emulation-mode), and we can integrate those changes into our existing GPP. 
+
+Essentially, just as we disabled the old LAPS from applying in autologon situations, we now need to prevent the new Windows LAPS from applying in autologon situations as well. This can be done by defining a new registry value named `BackupDirectory` in `HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config` to have a `REG_DWORD` value of `1`, and triggering it to apply when autologon is active. We also want to delete this registry value when LAPS *should* apply. 
+
+I've already [updated our gist that contains our GPP Registry values, you could copy and paste](#xml-export-of-my-dynamic-laps-enablement-registry-items) this into your own GPO if you like. If you'd prefer to write them yourself, please add these two new GPP Registry items:
+
+  * Create a new **Registry Item** to **Delete** `BackupDirectory` in `HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config`. 
+    * In this registry item, visit the **Common** tab, click the checkbox to Enable `Item-level targeting` and enter the `Targeting...` menu. 
+      * Create a new **Registry Match** ILT item:
+        * `Match type`: Match value data
+        * `Value data match type`: Any
+        * `HIVE`: HKEY_LOCAL_MACHINE
+        * `Key Path`: **SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon**
+        * `Value name`: **AutoAdminLogon**
+        * `Value type`: Any
+        * `Value data`: **1**
+      * Right-click the ILT item you just created and choose `Item Options` -> **`Is not`**. 
+      * Create a second **Registry Match** ILT item, ensure it has an **AND** relationship with your first one, with these settings:
+        * `Match type`: Match value data
+        * `Value data match type`: Any
+        * `HIVE`: HKEY_LOCAL_MACHINE
+        * `Key Path`: **SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon**
+        * `Value name`: **DefaultUserName**
+        * `Value type`: Any
+        * `Value data`: *the username of the local administrator account that MDT uses*. In our case, this is the default, **Administrator** .
+      * Right-click the item you just created and choose `Item Options` -> **`Is not`**.   
+  * Create another new **Registry Item** to **Update** value `BackupDirectory` in`HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config` to a `REG_DWORD` value of **`1`**. 
+    * This one should have a higher `Order` number than the previously-created item. 
+    * In this registry item, again go to the Common tab, enable Item-level targeting, and in the targeting menu:
+      * Create a new **Registry Match** ILT item:
+        * `Match type`: Match value data
+        * `Value data match type`: Any
+        * `HIVE`: HKEY_LOCAL_MACHINE
+        * `Key Path`: **SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon**
+        * `Value name`: **AutoAdminLogon**
+        * `Value type`: Any
+        * `Value data`: **1**
+      * Create a second **Registry Match** ILT item, ensure it has an **AND** relationship with your first one, with these settings:
+        * `Match type`: Match value data
+        * `Value data match type`: Any
+        * `HIVE`: HKEY_LOCAL_MACHINE
+        * `Key Path`: **SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon**
+        * `Value name`: **DefaultUserName**
+        * `Value type`: Any
+        * `Value data`: *the username of the local administrator account that MDT uses*. In our case, this is the default, **Administrator** .
+
+
+[^fn-postwindowslapsdisableyourcseinstaller]: It's not all good news, though. [Microsoft announced a regression that occurs when the old LAPS client-side extension (CSE) gets installed after the April 11th updates, which breaks both the old LAPS and the new Windows LAPS.](https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-overview#legacy-laps-interop-issues-with-the-april-11-2023-update). Thankfully, the resolutions are pretty straightforward, and hopefully they can find a way to fix the issue without needing intervention. 
+
+There's [guidance from Microsoft to on disabling Windows LAPS in scenarios like deployment](https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-scenarios-legacy#disabling-legacy-microsoft-laps-emulation-mode) and we've both [written an update below](#update-41923---updating-for-windows-laps) and have also [updated our GPP Registry items XML](#xml-export-of-my-dynamic-laps-enablement-registry-items) to reflect these changes. 
+
+It's possible we'll write a new version of this page that ignores the old/legacy LAPS and solely targets the new Windows LAPS, but for now you might have to worry about both the old and new LAPS in the same environment, and this new guidance will work for you with both." 
+
 
 ---
 ### Footnotes ###
