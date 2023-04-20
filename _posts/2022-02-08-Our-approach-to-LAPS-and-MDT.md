@@ -7,7 +7,7 @@ last_modified_at: 2023-04-19 15:05:05 -0700
 tags: [misartg, LAPS, MDT, GPO, GPP, ILT, "Active Directory"]
 ---
 
-{% include callout.html content="UPDATE - April 19, 2023: [**See our updated guidance**](#update-41923---updating-for-windows-laps) given the [new Windows LAPS feature included with the April 2023 updates](https://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747)." type="primary" %}
+{% include callout.html content="UPDATE - April 19, 2023: [**See our updated guidance**](#update-41923---updating-our-approach-for-windows-laps) given the [new Windows LAPS feature included with the April 2023 updates](https://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747)." type="primary" %}
 
 {% include callout.html content="Understand the issue and want to cut straight to \"the recipe\"? See our [Quickstart guide](#quickstart) and save more time by [copying and pasting our GPP Registry items XML](#xml-export-of-my-dynamic-laps-enablement-registry-items)." type="success" %} 
 
@@ -269,7 +269,7 @@ Then right-click the item you just created and again choose `Item Options` -> **
 
 Click `OK` on the two windows to complete the configuration. 
 
-{% include callout.html content="UPDATE - April 19, 2023: [See our updated guidance later in the page](#update-41923---updating-for-windows-laps) given the [new Windows LAPS feature included with the April 2023 updates](https://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747)." type="primary" %}
+{% include callout.html content="UPDATE - April 19, 2023: [See our updated guidance later in the page](#update-41923---updating-our-approach-for-windows-laps) given the [new Windows LAPS feature included with the April 2023 updates](https://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747). We don't have screenshots of each setting, but if you've come this far, you can definitely follow the bullets. " type="primary" %}
 
 You've now configured the base case/default policy, to enable LAPS if MDT (or some other software, potentially) is not configured to automatically log in to the computer with the Administrator user. 
 
