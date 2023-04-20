@@ -43,7 +43,7 @@ When we hired our assistant director, I wanted to ensure he could have one too, 
 *Our Cybersecurity Operations Center workstations use the 43" Dell 4k displays as well.*
 
 ![Image that shows a 55" Samsung Q-series 4k display on the ARTG workbench Zoom Room in the MIS Commons in 2022.](/assets/images/22-09-4k-displays/misartg-4k-samsungqseries-in-MIS-Commons.jpg)
-*Our MIS Commons Zoom Room uses a 55" Samsung Q-series 4k display and a video capture device to allow for simplified screen sharing. Students use the setup to collaborate in real time at the bench, showing a local computer's content in 4k resolution on the screen and optionally over Zoom.*
+*Our MIS Commons Zoom Room uses a 55" Samsung Q-series 4k display and a video capture device to allow for simplified screen sharing. Students use the setup to collaborate in real time at the bench, showing a local computer's content on the screen and optionally over Zoom.*
 
 Back at home, my 4k rampage wasn't over. By the late 2010s, TV manufacturers were generally making at least 1 HDMI port on their devices "compatible" with computers, providing 4k@60hz and RGB color space, so it was easier and cheaper than ever to go 4k. I was able to convince my wife of the value of large-format 4k display for work productivity, and in 2019 she got a cheap ($250!!) Visio 43" 4-series 4k display for her space, a combo office/craft loft. The device worked great with her personal Surface Pro 4 and her work-issued laptops, even through [a low-end KVM switch](https://www.amazon.com/gp/product/B07CWR31PN/).
 
