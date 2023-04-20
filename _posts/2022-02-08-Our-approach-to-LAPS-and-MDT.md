@@ -377,7 +377,7 @@ You'd copy this XML, then right-click on your GPO's `Computer Configuration` -> 
 
 ---
 
-### Update 4/19/23 - Updating for Windows LAPS ###
+### Update 4/19/23 - Updating our approach for Windows LAPS ###
 Microsoft [released a new version of LAPS](https://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747), called ["Windows LAPS"](https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-overview), on April 11th, 2023. It was included in patches released for Windows 10, Windows 11, and Windows Server 2019 and 2022[^fn-newlapsno2016server], so if you installed those updates, you now have Windows LAPS. 
 
 [^fn-newlapsno2016server]: [Windows LAPS was does not work on Windows Server 2016](https://www.reddit.com/r/sysadmin/comments/12itqb9/windows_laps_available_today/jfvq5s3/?context=1), so if you're still using Windows Server 2016 and wish to manage LAPS on it, you'll still use the old method with the LAPS CSE and the old LAPS GPO settings. If you're moving forward with Windows LAPS in your environment, you may wish to [write a WMI filter to target your Windows Server 2016 member servers](http://www.nogeekleftbehind.com/2016/01/19/os-version-queries-for-wmi-filters/), and then restrict those old LAPS GPOs to those 2016 Server systems via your WMI filter, to manage both old and new LAPS in your environment. 
