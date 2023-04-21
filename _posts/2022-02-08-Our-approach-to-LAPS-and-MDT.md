@@ -110,7 +110,7 @@ We'll have a detailed step-by-step guide below if you'd like more context, links
         * `Value type`: Any
         * `Value data`: *the username of the local administrator account that MDT uses*. In our case, this is the default, **Administrator** .
       * Right-click the item you just created and choose `Item Options` -> **`Is not`**.   
-  * 04/19/23 update for Windows LAPS: Create another new **Registry Item** to **Update** registry value `BackupDirectory` in`HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config` to a `REG_DWORD` value of **`1`**. 
+  * 04/19/23 update for Windows LAPS: Create another new **Registry Item** to **Update** registry value `BackupDirectory` in`HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config` to a `REG_DWORD` value of **`0`**. 
     * This one should have a higher `Order` number than the previously-created item. 
     * In this registry item, again go to the Common tab, enable Item-level targeting, and in the targeting menu:
       * Create a new **Registry Match** ILT item:
@@ -384,7 +384,7 @@ Microsoft [released a new version of LAPS](https://techcommunity.microsoft.com/t
 
 Luckily, the new Windows LAPS can manage clients running the older LAPS CSE in what they call Legacy Mode, so you can ease into Windows LAPS over time. Unfortunately, there is additional work to do in scenarios like the one we're try to solve here, preventing LAPS from applying during system deployment. But, fortunately, there's [now guidance from Microsoft on how to handle that](https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-scenarios-legacy#disabling-legacy-microsoft-laps-emulation-mode), and we can integrate those changes into our existing GPP.[^fn-postwindowslapsdisableyourcseinstaller] 
 
-Essentially, just as we disabled the old LAPS from applying in autologon situations, we now need to prevent the new Windows LAPS from applying in autologon situations as well. This can be done by defining a new registry value named `BackupDirectory` in `HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config` to have a `REG_DWORD` value of `1`, and triggering it to apply when autologon is active. We also need to delete this registry value when LAPS *should* apply.
+Essentially, just as we disabled the old LAPS from applying in autologon situations, we now need to prevent the new Windows LAPS from applying in autologon situations as well. This can be done by defining a new registry value named `BackupDirectory` in `HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config` to have a `REG_DWORD` value of `0`, and triggering it to apply when autologon is active. We also need to delete this registry value when LAPS *should* apply.
 
 I've already [updated our gist that contains our GPP Registry values, you could copy and paste](#xml-export-of-my-dynamic-laps-enablement-registry-items) this into your own GPO if you like. If you'd prefer to write them yourself, please add these two new GPP Registry items:
 
@@ -408,7 +408,7 @@ I've already [updated our gist that contains our GPP Registry values, you could 
         * `Value type`: Any
         * `Value data`: *the username of the local administrator account that MDT uses*. In our case, this is the default, **Administrator** .
       * Right-click the item you just created and choose `Item Options` -> **`Is not`**.   
-  * Create another new **Registry Item** to **Update** registry value `BackupDirectory` in`HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config` to a `REG_DWORD` value of **`1`**. 
+  * Create another new **Registry Item** to **Update** registry value `BackupDirectory` in`HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config` to a `REG_DWORD` value of **`0`**. 
     * This one should have a higher `Order` number than the previously-created item. 
     * In this registry item, again go to the Common tab, enable Item-level targeting, and in the targeting menu:
       * Create a new **Registry Match** ILT item:
