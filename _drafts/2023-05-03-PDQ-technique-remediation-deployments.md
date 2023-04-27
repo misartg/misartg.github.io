@@ -10,7 +10,7 @@ tags:   [pdq, pdqdeploy, pdqinventory, deployment, installs, remediation, automa
 
 We are big fans of [PDQ](https://www.pdq.com)'s products, starting with Deploy many years ago and a few years back adding Inventory so we could move to [(legacy) LAPS integrations for our deployments](https://help.pdq.com/hc/en-us/articles/115001132352-LAPS-Integration-with-PDQ-Inventory-and-PDQ-Deploy), among other benefits. Their reliability, simplicity and features are a pleasant surprise, and we've been able to use the software to effectively solve problems and make our own lives easier. And the pricing model works really well for our small team. 
 
-As I've talked to more colleagues about how we use the software, it became obvious that we needed to write up a particular way in which we use these products. Not because our technique is novel or even particularly interesting, but because it's a little complex and perhaps not an obvious way to use the tools for those new to them. But we've found it a worthwhile way to automate some of our common tasks, and as we delved into some more advanced PDQ techniques, beyond just application installations and updates, we've used it more and more. We've come to call the process "Remediation Deployments" internally. 
+As I've talked to more colleagues about how we use the software, it became obvious that we needed to write up a particular way in which we use these products. Not because our technique is novel or even particularly interesting, but because it's a little complex and perhaps not an obvious way to use the products for those new to them. But we've found it a worthwhile way to automate some of our common tasks, and as we delved into some more advanced PDQ techniques, beyond just application installations and updates, we've used it more and more. We've come to call the process "Remediation Deployments" internally. 
 
 ## Our approach: PDQ Remediation Deployments ##
 
@@ -28,7 +28,9 @@ If you do it right, the machines that don't have what you want will end up in th
 
 ### Remediation Deployment concept example ###
 
-Let's walk through the 5 steps with an example. 
+Let's walk through the concept with an example. 
+
+
 
 
 
