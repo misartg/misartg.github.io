@@ -10,11 +10,11 @@ tags:   [pdq, pdqdeploy, pdqinventory, deployment, installs, remediation, automa
 
 We are big fans of [PDQ](https://www.pdq.com)'s products, starting with Deploy many years ago and a few years back adding Inventory so we could move to [(legacy) LAPS integrations for our deployments](https://help.pdq.com/hc/en-us/articles/115001132352-LAPS-Integration-with-PDQ-Inventory-and-PDQ-Deploy), among other benefits. Their reliability, simplicity and features are a pleasant surprise, and we've been able to use the software to effectively solve problems and make our own lives easier. And the pricing model works really well for our small team. 
 
-As I've talked to more colleagues about how we use the software, it became obvious that we needed to write up a particular way in which we use these products. Not because our technique is novel or even particularly interesting, but because it's a little complex and perhaps not an obvious way to use the products for those new to them. But we've found it a worthwhile way to automate some of our common tasks, and as we delved into some more advanced PDQ techniques, beyond just application installations and updates, we've used it more and more. We've come to call the process "Remediation Deployments" internally. 
+As I've talked to more colleagues about how we use the software, it became obvious that we needed to write up a particular way in which we use these products. Not because our technique is novel or even particularly interesting, but because it's a little complex and perhaps not an obvious way to use the products for those new to them. But we've found it a worthwhile way to automate some of our common tasks and requirements. We've come to call the technique "Remediation Deployments" internally. 
 
 ## Our approach: PDQ Remediation Deployments ##
 
-The basic idea is simple:
+The idea is simple:
 
 1. Create a PDQ Deploy package that modifies a system, changing its state or configuration to something you desire. This can be as simple as an application install or update, or something less structured/more complicated. 
 
