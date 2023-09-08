@@ -17,9 +17,13 @@ As I've talked to more colleagues about how we use the software, it became obvio
 The basic idea is simple:
 
 1. Create a PDQ Deploy package that modifies a system, changing its state or configuration to something you desire. This can be as simple as an application install or update, or something less structured/more complicated. 
-2. Create a PDQ Inventory group that identifies systems with the state or configuration that you desire. It isn't strictly necessary to do this, but you may want to, as it could help you with the other steps, analysis/reporting, or just for completeness. 
-3. Create a related PDQ Inventory group that identifies in-scope systems that lack the desired state. This is the "Remediation Group". You may not desire every system to have this particular state or config, so scope this group to only the audience of *potential* machines you'd want.
+
+2. Create a PDQ Inventory group that identifies in-scope systems that lack the desired state. This is the "Remediation Group". You may not desire every system to have this particular state or config, so scope this group to only the audience of *potential* machines you'd want.
+
+3. Optional: Create a related PDQ Inventory group that identifies systems with the state or configuration that you desire. It isn't strictly necessary to do this, but you may want to, as it could help you with the other steps, analysis/reporting, or just for completeness. If you do create a group like this, you can use it to verify that there's no overlap in membership with your remediation group. 
+
 4. Ensure the groups in PDQ Inventory are accurately portrayed over time. You may need to schedule or tweak your Scan Profiles to ensure the membership is up-to-date and accurate.
+
 5. Create a recurring Schedule in PDQ Deploy to deploy the package to the Remediation Group; this is the "Remediation Deployment". Our Remediation Deployments generally run hourly.
 
 If you do it right, the machines that don't have what you want will end up in the Remediation Group, and be remediated by the Remediation Deployment, without you having to do anything.
