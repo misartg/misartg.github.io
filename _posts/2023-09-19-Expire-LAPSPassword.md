@@ -6,7 +6,7 @@ date: 2023-09-19 14:35:35 -0700
 tags: [LAPS, expire, expiration, password, ms-MCS-AdmPwdExpirationTime]
 ---
 
-Someone contacted me with some questions about Windows LAPS from our [MDT+LAPS post](/2022/02/08/Our-approach-to-LAPS-and-MDT.html), and we thought they might benefit from seeing the internal PowerShell script we wrote to expire the local machine's LAPS password, Expire-LAPSPassword.ps1. So I've put it in [a gist](https://gist.github.com/jmoeller-ua/9314a6e2bb7c55a93855b865938385cf). 
+Someone contacted me with some questions from our [MDT+LAPS post](/2022/02/08/Our-approach-to-LAPS-and-MDT.html), and we agreed they might benefit from seeing the internal PowerShell script we wrote to expire the local machine's LAPS password, Expire-LAPSPassword.ps1. So I've put it in [a gist](https://gist.github.com/jmoeller-ua/9314a6e2bb7c55a93855b865938385cf). 
 
 {% gist 9314a6e2bb7c55a93855b865938385cf %}
 
