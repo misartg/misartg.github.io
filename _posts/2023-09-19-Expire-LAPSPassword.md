@@ -21,4 +21,3 @@ Someone contacted me with some questions about Windows LAPS from our [MDT+LAPS p
 - I'll glady take feedback if you have it. When it comes to scripting and coding, I'm an overconfident amateur. I'd love to continue improving with your tips. 
 
 ---
-
