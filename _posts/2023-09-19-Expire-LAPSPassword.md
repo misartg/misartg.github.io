@@ -16,8 +16,8 @@ Someone contacted me with some questions from our [MDT+LAPS post](/2022/02/08/Ou
 
 - I cannot recall exactly why we had to use the 2.8.5.201 version of the NuGet provider, but I remember it seemed important at the time. That module-loading stanza has been copy-pasted into over a dozen of our PS scripts over the years, so it's likely whatever reason that was may not be applicable any more. 
 
-- This script is a bit chatty in terms of output, which met our needs. If you don't like that, you could easily change some of the `Write-Output` commands to `Write-Verbose` to quiet it down some. 
+- This script is a bit chatty in terms of output, which met our needs. If you don't like that, you could easily change some of the `Write-Output` commands to `Write-Verbose` to quiet it down some during normal operation.  
 
-- I'll glady take feedback if you have it. When it comes to scripting and coding, I'm an overconfident amateur. I'd love to continue improving with your tips. 
+- I'll glady take feedback if you have it. When it comes to scripting and coding, I'm an overconfident amateur. I'd love to continue improving with your suggestions. 
 
 ---
