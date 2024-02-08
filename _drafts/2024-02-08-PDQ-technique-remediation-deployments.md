@@ -20,7 +20,7 @@ The idea is simple:
 
 1. Create or update your PDQ Inventory Scan Profiles/Scanners to detect systems that are out of compliance with your desired state. Be sure to set Triggers that run often enough to meet your time resolution goals, without running excessively[^fn-runningscansafterdeployments]. 
 
-2. Create a PDQ Inventory group that dynamically contains systems that lack the desired state. This is the "Remediation Group". You may not desire every system to have this particular state or config, so scope this group to only the audience of *potential*[^fn-temporarilyunavailablecomputers] machines you'd want.
+2. Create a PDQ Inventory group that dynamically contains systems that lack the desired state. This is the "Remediation Group". You may not desire every system in your environment to have this particular state or config, so scope this group to only the audience of *potential*[^fn-temporarilyunavailablecomputers] machines you'd want.
 
 3. Optional: Create a related PDQ Inventory group that identifies systems with the state or configuration that you desire. It isn't strictly necessary to do this, but you may want to depending on the situation, as it could help you with the other work, auditing/reporting, or just for completeness. If you do create a group like this, you can use it to verify that there's no overlap in membership with your remediation group.
 
@@ -32,7 +32,7 @@ When working correctly, the machines that don't have what you want will end up i
 
 [^fn-runningscansafterdeployments]: We sometimes help this along by running the appropriate PDQ scan after a relevant deployment is done. 
 
-[^fn-temporarilyunavailablecomputers]: We take this a step further in our environment by having group structures that detect temporarily unavailable machines, whether that be because they're offline, unmanageable or broken, non-compatible OSes (say, Linux), or what have you. We then exclude the temporarily unavailable machines from nearly every group that's scoped by a deployment. Like other dynamic groups, temporarily unavailable computers will leave those groups once they become available to manage again. We prefer this approach to seeing dozens of errored clients in our deployments, but it's mostly a style preference. 
+[^fn-temporarilyunavailablecomputers]: We take this a step further in our environment by having group structures that detect unavailable machines, whether that be because they're offline, unmanageable or broken, non-compatible OSes (say, Linux), or what have you. We then exclude the unavailable machines from nearly every group that's scoped by a deployment. Like other dynamic groups, temporarily unavailable computers will leave those groups once they become available to manage again, so we don't have to worry about an unmanageable machine staying that way forever. We prefer this approach to seeing dozens of errored clients in our deployments, but it's mostly a style preference. 
 
 ### Remediation Deployment concept example ###
 
