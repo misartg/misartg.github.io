@@ -64,7 +64,7 @@ This is our Remedation Group, our dynamic group for identifying computers that l
 
 ![Image showing our dynamic remedation group configuration](/assets/images/24-02-pdq-remediation/misartg-pdq-rg-ex1-step2-remediation-group.png)
 
-This is a relatively simple group, getting every available computer in our environment except for the members of groups listed here, but you can really go nuts with inclusion or exclusion, and complicated set math, of anything you can detect with PDQ Inventory. 
+This is a relatively simple group, getting available computer in our environment except for the members of groups listed here, but you can really go nuts with inclusion or exclusion of groups, combined with complicated set math, of anything you can detect with PDQ Inventory. 
 
 We like to exclude unavailable computers[^fn-temporarilyunavailablecomputers] from our deployment groups, to avoid errors and noise. 
 
@@ -102,14 +102,14 @@ Over time, assuming you have everything running well, new systems or systems tha
 
 PDQ Deploy is clever enough to skip deployments that have 0 members in the targeted group, which is how most of our Remediation Deployments tend to go. 
 
-### Remediation Deployment Ideas ###
+### Ideas ###
 
 You probably have your own ideas of how this could be used in your area, but we use Remediation Deployments for the following in our environment:
 
-- Ensuring our enterprise security software is installed and active site-wide. We do a few software installs, post-install software configurations and security baseline deployments with this approach. 
+- Ensuring our enterprise security software is installed and active site-wide. We do a half-dozen software installs, some post-install software configurations and some security baselining with this approach. 
 - Ensuring our VMware virtual machines have the latest VMware Tools installed. 
 - Copying down shared printer drivers for computers that are missing them. 
-- Targeting computers that failed to successfully complete their weekly maintenance jobs to try them again near the end of our maintenance windows. We also have a remediation deployment to force a reboot on machines that require one in our maintenance window as well. 
+- Targeting computers that failed to successfully complete their weekly maintenance jobs to try again near the end of our maintenance windows. We also have a remediation deployment to force a reboot on machines that require one in our maintenance window as well. 
 
 
 ---
