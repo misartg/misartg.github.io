@@ -34,9 +34,9 @@ When working correctly, the machines that don't have what you want will end up i
 
 [^fn-temporarilyunavailablecomputers]: We take this a step further in our environment by having group structures that detect unavailable machines, whether that be because they're offline, unmanageable or broken, non-compatible OSes (say, Linux), or what have you. We then exclude the unavailable machines from nearly every group that's scoped by a deployment. Like other dynamic groups, temporarily unavailable computers will leave those groups once they become available to manage again, so we don't have to worry about an unmanageable machine staying that way forever. We prefer this approach to seeing dozens of errored clients in our deployments, but it's mostly a style preference. 
 
-## Remediation Deployment concept example ##
+## Remediation Deployment example ##
 
-Let's walk through the concept with an example. 
+Let's walk through the concept with a simple example. 
 
 We like to deploy the `winlogbeat` and other beats clients to select computers in our environment. 
 
