@@ -7,6 +7,8 @@ last_modified_at: 2023-04-19 15:05:05 -0700
 tags: [misartg, LAPS, MDT, GPO, GPP, ILT, "Active Directory"]
 ---
 
+{% include callout.html content="UPDATE - March 20, 2024: We have tweaked [our updated guidance](#update-41923---updating-our-approach-for-windows-laps) thanks to a wise suggestion from a reader, Jan Inge. Thanks Jan!" type="primary" %}
+
 {% include callout.html content="UPDATE - April 19, 2023: [See our updated guidance](#update-41923---updating-our-approach-for-windows-laps) given the [new Windows LAPS feature included with the April 2023 updates](https://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747)." type="primary" %}
 
 {% include callout.html content="Understand the issue and want to cut straight to \"the recipe\"? See our [Quickstart guide](#quickstart) and save more time by [copying and pasting our GPP Registry items XML](#xml-export-of-my-dynamic-laps-enablement-registry-items)." type="success" %} 
@@ -388,7 +390,7 @@ Essentially, just as we disabled the old LAPS from applying in autologon situati
 
 I've already [updated our gist that contains our GPP Registry values, you could copy and paste](#xml-export-of-my-dynamic-laps-enablement-registry-items) this into your own GPO if you like. If you'd prefer to write them yourself, please add these two new GPP Registry items:
 
-  * Create a new **Registry Item** to **Delete** registry value `BackupDirectory` in `HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config`. 
+  * Create a new **Registry Item** to **Update** registry value `BackupDirectory` in `HKLM\Software\Microsoft\Windows\CurrentVersion\LAPS\Config` to `REG_DWORD` value of **`2`**, meaning Active Directory backup of the password. If you'd prefer to backup to Microsoft Entra instead, use a value of **`1`** .[^fn-thanksjan]
     * In this registry item, visit the **Common** tab, click the checkbox to Enable `Item-level targeting` and enter the `Targeting...` menu. 
       * Create a new **Registry Match** ILT item:
         * `Match type`: Match value data
@@ -427,6 +429,8 @@ I've already [updated our gist that contains our GPP Registry values, you could 
         * `Value name`: **DefaultUserName**
         * `Value type`: Any
         * `Value data`: *the username of the local administrator account that MDT uses*. In our case, this is the default, **Administrator** .
+
+[^fn-thanksjan]: This improvement over our original guidance is thanks to Jan Inge. Thanks for the suggestion, Jan! 
 
 [^fn-postwindowslapsdisableyourcseinstaller]: It's not all good news, though. [Microsoft announced a regression that occurs when the old LAPS client-side extension (CSE) gets installed after the April 11th updates, which breaks both the old LAPS and the new Windows LAPS](https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-overview#legacy-laps-interop-issues-with-the-april-11-2023-update). Thankfully, the resolutions are pretty straightforward, and hopefully they can find a way to fix the issue without needing intervention. 
 
