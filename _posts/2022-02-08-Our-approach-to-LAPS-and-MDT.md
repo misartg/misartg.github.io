@@ -430,7 +430,7 @@ I've already [updated our gist that contains our GPP Registry values, you could 
         * `Value type`: Any
         * `Value data`: *the username of the local administrator account that MDT uses*. In our case, this is the default, **Administrator** .
 
-[^fn-thanksjan]: This improvement over our original guidance is thanks to Jan Inge. Thanks for the suggestion, Jan! 
+[^fn-thanksjan]: This improvement over our original guidance, which was to delete the `BackupDirectory` value, is thanks to Jan Inge. Thanks for the suggestion, Jan! 
 
 [^fn-postwindowslapsdisableyourcseinstaller]: It's not all good news, though. [Microsoft announced a regression that occurs when the old LAPS client-side extension (CSE) gets installed after the April 11th updates, which breaks both the old LAPS and the new Windows LAPS](https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-overview#legacy-laps-interop-issues-with-the-april-11-2023-update). Thankfully, the resolutions are pretty straightforward, and hopefully they can find a way to fix the issue without needing intervention. 
 
