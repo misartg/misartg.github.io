@@ -32,7 +32,7 @@ When working correctly, the machines that don't have what you want will end up i
 
 [^fn-runningscansafterdeployments]: We sometimes help this along by running the appropriate PDQ scan after a relevant deployment is done. 
 
-[^fn-temporarilyunavailablecomputers]: We take this a step further in our environment by having group structures that detect unavailable machines, whether that be because they're offline, unmanageable or broken, non-compatible OSes (say, Linux), or what have you. We then exclude the unavailable machines from nearly every group that's scoped by a deployment. Like other dynamic groups, temporarily unavailable computers will leave those groups once they become available to manage again, so we don't have to worry about an unmanageable machine staying that way forever. We prefer this approach to seeing dozens of errored clients in our deployments, but it's mostly a style preference. 
+[^fn-temporarilyunavailablecomputers]: We take this a step further in our environment by having group structures that detect unavailable machines, whether that be because they're offline, unmanageable or broken, non-compatible OSes (say, Linux), or what have you. We then exclude the unavailable machines from nearly every group that's scoped by a deployment. Like other dynamic groups, temporarily unavailable computers will leave those groups once they become available to manage again, so we don't have to worry about a temporarily unmanageable machine staying that way forever. We prefer this approach to seeing dozens of errored clients in our deployments, but it's mostly a style preference. 
 
 ## Remediation Deployment example ##
 
@@ -58,7 +58,7 @@ This is a simple PDQ Inventory dynamic group that contains the computers that ha
 
 ![Image showing our dynamic auditing group configuration](/assets/images/24-02-pdq-remediation/misartg-pdq-rg-ex1-step3-auditing-group.png)
 
-#### 2. Create a PDQ Inventory group that dynamically contains systems that lack the desired state. ####
+#### 2. Create a PDQ Inventory group that dynamically contains systems that **lack** the desired state. ####
 
 This is our Remedation Group, our dynamic group for identifying computers that lack the configuration we want. We simply referenced the auditing group we just created, but we could have instead built it with the inverse `Not All` of the File & Directory filters we used previously. 
 
