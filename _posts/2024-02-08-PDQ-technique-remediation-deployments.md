@@ -96,7 +96,7 @@ Targets has our Remediation Group:
 
 Packages runs our Remediation Deployment:
 
-![Image showing our Remediation Deployment's packages settings, which includes our Remediation Deployment](/assets/images/24-02-pdq-remediation/misartg-pdq-rg-ex1-step5-2-targets-rg.png)
+![Image showing our Remediation Deployment's packages settings, which includes our Remediation Deployment](/assets/images/24-02-pdq-remediation/misartg-pdq-rg-ex1-step5-3-runs-rd.png)
 
 Over time, assuming you have everything running well, new systems or systems that have drifted from configuration will end up in your Remediation Group, and will be remediated by the Remediation Deployment at the triggered time. 
 
