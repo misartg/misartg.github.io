@@ -14,7 +14,7 @@ Sometime in 2014 I saw an article on slashdot [by Brian Hauer, whose office purc
 
 I noticed the following:
 1. It's **really nice** to look at editor/IDE/reference materials in a tall window on a big 4k screen alongside other windows where you're making changes or monitoring progress/output.
-2. It's similarly **really nice** to do your editing/change work on a 1080p full-screen window and have output on part of your 4k, along with other things you might be cheecking like e-mail or chat. 
+2. It's similarly **really nice** to do your editing/change work on a 1080p full-screen window and have output on part of your 4k, along with other things you might be checking, like e-mail or chat. 
 3. A 3840x2160 4k monitor is essentially 4x 1080p monitors in 2x2 alignment on a single panel, and I found it more convenient to manage my workflow on a single panel than on separate physical monitors. I feel strongly that a 4k monitor needs to be large-format to be useful in this way, at least 40"; I now believe 43" to basically ideal for me.  
 4. It seemed to me both simpler and more cost effective to get a single 4k PC display than to buy and mount 4 individual 1080p displays. Having too many displays arranged side-by-side(-by-side-by-side) is ergonomically taxing to deal with, and I doubt most people would even pay much attention to the 4th display in such a setup. Getting mounts/mounting arms capable of doing 2x2 is tricky and probably expensive.
 5. It's also easier (especially these days) to drive a 4k monitor from a single HDMI, DisplayPort or USB-C connection instead of an independent connection for each monitor.
