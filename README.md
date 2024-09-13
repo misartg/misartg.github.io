@@ -22,7 +22,7 @@ You can use [Jeykll](https://jekyllrb.com/) to run this site locally, allowing y
 
 1. Install ruby. ~~If you have chocolatey, `choco install ruby.install` should do. That should come with Ruby's `gem` installer as well.~~ The [choco installer doesn't have everything you'll need](https://github.com/tmm1/http_parser.rb/issues/55) to do this. Instead, [get the 64-bit Ruby+devkit installer and install it manually](https://rubyinstaller.org/downloads/). 
 
-2. Install jekyll and bundler. `gem install jekyll bundler` should work. 
+2. Install jekyll and bundler. `gem install jekyll bundler` should work. Wait one forever. 
 
 3. Clone this repo.
 

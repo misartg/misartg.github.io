@@ -19,5 +19,5 @@ Please visit our other pages for more information about our group:
 - [University of Arizona](https://www.arizona.edu/)
 
 Would you like to contact us?
-- You can e-mail our group's director, John Moeller, at [jmoeller@email.arizona.edu](jmoeller@email.arizona.edu). 
-- To send in a general support request to our team, you can e-mail [artg-support@email.arizona.edu](mailto:artg-support@email.arizona.edu).
+- You can e-mail our group's director, John Moeller, at [jmoeller@arizona.edu](mailto:jmoeller@arizona.edu). 
+- To send in a general support request to our team, you can e-mail [artg-support@arizona.edu](mailto:artg-support@arizona.edu).
