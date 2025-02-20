@@ -78,7 +78,7 @@ Installing/re-installing is all it means for us to remediate in this case, but y
 
 Notice that we also run a PDQ Inventory scan after we run the script. It references the same Scan Profile that we did in Step 1:
 
-![Image showing our remedating PDQ Deploy package's scan task, which runs after we do the install script](/assets/images/24-02-pdq-remediation/misartg-pdq-rg-ex1-step4-1-remediating-package.png)
+![Image showing our remedating PDQ Deploy package's scan task, which runs after we do the install script](/assets/images/24-02-pdq-remediation/misartg-pdq-rg-ex1-step4-2-scan-after.png)
 
 Running the scan after the installation keeps the Remediation Group membership as up-to-date as possible. 
 
