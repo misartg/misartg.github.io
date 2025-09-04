@@ -19,8 +19,8 @@ By passing **`ip=::::$(hostname)::dhcp:::`** to the Debian and Ubuntu network in
 In our local netboot.xyz's `ubuntu.ipxe` file, we commented out line 141 and replaced it as follows:
 
 ```
-141 #isset ${dhcp-server} && set netboot_params ip=dhcp url=${ubuntu_iso_url} || set netboot_params
-142 isset ${dhcp-server} && set netboot_params ip=::::$(hostname)::dhcp::: url=${ubuntu_iso_url} || set netboot_params
+#isset ${dhcp-server} && set netboot_params ip=dhcp url=${ubuntu_iso_url} || set netboot_params
+isset ${dhcp-server} && set netboot_params ip=::::$(hostname)::dhcp::: url=${ubuntu_iso_url} || set netboot_params
 ```
 
 I imagine this is a relatively niche issue bourne out of the combination of technologies in the stack we're using, any of which could be at fault or missing correct configuration. But I wanted to write it up since it's one of the "magic commands" that fixed everything for us once we found it, and it's the sort of thing I'm likely to forget about entirely a year hence. 
