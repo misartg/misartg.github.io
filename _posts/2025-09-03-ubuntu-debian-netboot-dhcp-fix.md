@@ -14,7 +14,7 @@ If you were inside a full Debian-family OS, there's certain config changes or wo
 
 [Mercifully, this StackOverflow comment by Oleg Golovanov included the full syntax of the `ip` parameter in a way that the netboot installer could handle](https://stackoverflow.com/a/77733349/23493737). 
 
-**By passing `ip=::::$(hostname)::dhcp:::` to the Debian and Ubuntu network installers, it sends the Client Identifier in the syntax our DHCP server expects, gets an IP address, and therefore the network installer works.**
+By passing **`ip=::::$(hostname)::dhcp:::`** to the Debian and Ubuntu network installers, it sends the Client Identifier in the syntax our DHCP server expects, gets an IP address, and therefore the network installer works.
 
 In our local netboot.xyz's `ubuntu.ipxe` file, we commented out line 141 and replaced it as follows:
 
